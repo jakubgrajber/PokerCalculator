@@ -8,6 +8,7 @@
 #include <iostream>
 #include "Deck.hpp"
 #include "Card.hpp"
+#include <algorithm>
 
 int main() {
     Deck mainDeck;
@@ -15,7 +16,8 @@ int main() {
     std::cout<<std::endl;
     
     Card test = mainDeck[4];
-    
     test.print();
+    
+    
     return 0;
 }
