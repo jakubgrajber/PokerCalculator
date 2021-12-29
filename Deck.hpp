@@ -22,6 +22,7 @@ public:
     Deck();
     
     friend eColor intToColor(int value);
+    const Card & operator[](int index) const;
     void print();
     
     ~Deck(){};

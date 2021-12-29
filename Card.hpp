@@ -21,6 +21,7 @@ private:
 public:
     Card(){};
     Card(int value, eColor color);
+//    Card(const Card &a);
     
     void print() const;
     void printValue() const;

@@ -34,6 +34,10 @@ Deck::Deck(){
     }
 }
 
+const Card & Deck::operator[](int index) const {
+    return card[index];
+}
+
 void Deck::print(){
     for (int i=0; i<DECK_SIZE; i++) {
         this->card[i].print();

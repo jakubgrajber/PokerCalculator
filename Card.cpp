@@ -13,6 +13,11 @@ Card::Card(int value, eColor color){
     this->color = color;
 }
 
+//Card::Card(const Card &a){
+//    this->value = a.value;
+//    this->color = a.color;
+//}
+
 void Card::print() const{
     this->printValue();
     this->printColor();
