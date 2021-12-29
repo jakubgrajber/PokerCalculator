@@ -15,35 +15,34 @@ Card::Card(int value, eColor color){
 
 void Card::print() const{
     this->printValue();
-    std::cout << " ";
     this->printColor();
     std::cout << " ";
 }
 
 void Card::printValue() const{
     if (value < 11)
-        std::cout << value;
+        std::cout << "|" << value;
     else{
         switch (value)
         {
             case 11:
             {
-                std::cout << "J";
+                std::cout << "|J";
                 break;
             }
             case 12:
             {
-                std::cout << "Q";
+                std::cout << "|Q";
                 break;
             }
             case 13:
             {
-                std::cout << "K";
+                std::cout << "|K";
                 break;
             }
             case 14:
             {
-                std::cout << "A";
+                std::cout << "|A";
                 break;
             }
         }
@@ -55,22 +54,22 @@ void Card::printColor() const{
     {
         case 0:
         {
-            std::cout << "♠︎";
+            std::cout << "♠︎|";
             break;
         }
         case 1:
         {
-            std::cout << "♣︎";
+            std::cout << "♣︎|";
             break;
         }
         case 2:
         {
-            std::cout << "♦︎";
+            std::cout << "♦︎|";
             break;
         }
         case 3:
         {
-            std::cout << "♥︎";
+            std::cout << "♥︎|";
             break;
         }
         case error: {
