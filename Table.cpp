@@ -8,6 +8,8 @@
 #include "Table.hpp"
 
 Table::Table(int amountOfPlayers){
+    if(amountOfPlayers>10)
+        amountOfPlayers =10;
     player = new Player[amountOfPlayers];
     this->amountOfPlayers = amountOfPlayers;
     deckPosition = 0;
@@ -16,6 +18,15 @@ Table::Table(int amountOfPlayers){
 
 void Table::cardsAssignment(){
     for (int i =0; i<amountOfPlayers; i++) {
+        for (int j=0; j<2; j++) {
+            player[i].getCard(deck[deckPosition++]);
+        }
+    }
+}
+void Table::print(){
+for (int i =0; i<amountOfPlayers; i++) {
+    player[i].print();
+    std::cout << std::endl;
     }
 }
 

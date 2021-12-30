@@ -21,6 +21,7 @@ private:
 public:
     Table(int amountOfPlayers);
     void cardsAssignment();
+    void print();
     ~Table();
 };
 

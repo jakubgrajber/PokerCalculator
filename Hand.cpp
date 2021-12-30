@@ -12,6 +12,9 @@ void Hand::updateHand(const vector<Card>& card){
         this->hand.push_back(*i);
     }
 }
+void Hand::updateHand(const Card &card){
+    this->hand.push_back(card);
+}
 
 void Hand::print(){
     for (auto i = this->hand.begin(); i!=this->hand.end(); i++)

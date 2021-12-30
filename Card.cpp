@@ -21,15 +21,19 @@ Card::Card(int value, eColor color){
 void Card::print() const{
     this->printValue();
     this->printColor();
-    std::cout << " ";
 }
 
 void Card::printValue() const{
-    if (value < 11)
+    if (value < 10)
         std::cout << "|" << value;
     else{
         switch (value)
         {
+            case 10:
+            {
+                std::cout << "|T";
+                break;
+            }
             case 11:
             {
                 std::cout << "|J";

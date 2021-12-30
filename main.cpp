@@ -14,7 +14,9 @@ using std::cout;
 using std::endl;
 
 int main() {
-
+    Table mainTable(15);
+    mainTable.cardsAssignment();
+    mainTable.print();
     cout << endl;
     return 0;
 }

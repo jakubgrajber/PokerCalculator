@@ -7,4 +7,13 @@
 
 #include "Player.hpp"
 
+void Player::getCard(const Card &card){
+    hand.push_back(card);
+    amountOfCards++;
+}
 
+void Player::print(){
+    for (int i =0; i<amountOfCards; i++) {
+        hand[i].print();
+    }
+}
