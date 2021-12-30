@@ -8,10 +8,10 @@
 #ifndef Deck_hpp
 #define Deck_hpp
 
-#include <stdio.h>
-#include <iostream>
+#include <algorithm>
+#include <random>
 #include "Card.hpp"
-#include "Hand.hpp"
+
 
 const int DECK_SIZE = 52;
 const int SUIT_SIZE = 13;

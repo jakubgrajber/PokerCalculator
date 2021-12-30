@@ -9,6 +9,14 @@
 
 Table::Table(int amountOfPlayers){
     player = new Player[amountOfPlayers];
+    this->amountOfPlayers = amountOfPlayers;
+    deckPosition = 0;
+    
+}
+
+void Table::cardsAssignment(){
+    for (int i =0; i<amountOfPlayers; i++) {
+    }
 }
 
 Table::~Table(){

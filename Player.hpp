@@ -8,7 +8,6 @@
 #ifndef Player_hpp
 #define Player_hpp
 
-#include <stdio.h>
 #include "Hand.hpp"
 
 class Player{
@@ -16,8 +15,8 @@ private:
     Hand hand;
     double winningPercentage;
 public:
+    friend class Hand;
     Player(){};
-    
     ~Player(){};
 };
 

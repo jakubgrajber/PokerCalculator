@@ -7,6 +7,10 @@
 
 #include "Deck.hpp"
 
+std::random_device rd;
+std::mt19937 gen(rd());
+std::uniform_int_distribution<int> distrib(0,51);
+
 eColor intToColor(int x){
     switch (x){
         case 0:
@@ -32,6 +36,7 @@ Deck::Deck(){
             this->card[numberOfCardsInDeck++] = Card(i, intToColor(suit));
         }
     }
+    std::shuffle(&card[0], &card[52], std::mt19937(distrib(gen)));
 }
 
 const Card & Deck::operator[](int index) const {

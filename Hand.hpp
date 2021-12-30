@@ -8,7 +8,6 @@
 #ifndef Hand_hpp
 #define Hand_hpp
 
-#include <stdio.h>
 #include "Card.hpp"
 #include <vector>
 #include <algorithm>

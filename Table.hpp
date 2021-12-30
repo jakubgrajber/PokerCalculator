@@ -9,7 +9,6 @@
 #define Table_hpp
 
 #include <memory>
-#include <stdio.h>
 #include "Player.hpp"
 #include "Deck.hpp"
 
@@ -17,8 +16,11 @@ class Table{
 private:
     Player *player;
     Deck deck;
+    int amountOfPlayers;
+    int deckPosition;
 public:
     Table(int amountOfPlayers);
+    void cardsAssignment();
     ~Table();
 };
 
