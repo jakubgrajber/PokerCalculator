@@ -6,16 +6,14 @@
 //
 
 #include <iostream>
-#include "Deck.hpp"
+#include "Table.hpp"
 
 
 using std::cout;
 using std::endl;
 
 int main() {
-    Deck mainDeck;
-    mainDeck.print();
-    cout << endl;
+    
     
     return 0;
 }
