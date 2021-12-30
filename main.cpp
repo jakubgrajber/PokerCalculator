@@ -7,17 +7,15 @@
 
 #include <iostream>
 #include "Deck.hpp"
-#include "Card.hpp"
-#include <algorithm>
+
+
+using std::cout;
+using std::endl;
 
 int main() {
     Deck mainDeck;
     mainDeck.print();
-    std::cout<<std::endl;
-    
-    Card test = mainDeck[4];
-    test.print();
-    
+    cout << endl;
     
     return 0;
 }

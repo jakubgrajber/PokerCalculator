@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "Card.hpp"
+#include "Hand.hpp"
 
 const int DECK_SIZE = 52;
 const int SUIT_SIZE = 13;
