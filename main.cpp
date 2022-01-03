@@ -72,7 +72,7 @@ void mainMenu(){
         selector = 0;
         while(true)
         {
-            cout << "\nDo you want to try again?" << endl;
+            cout << "Do you want to try again?" << endl;
             cout << "1. Yes" << endl;
             cout << "2. No. QUIT" << endl;
             try {
@@ -93,7 +93,7 @@ void mainMenu(){
 }
 
 void randomMode(){
-    newLine(5);
+    newLine(1);
     int numOfPlayers = 0;
     
     while (numOfPlayers==0) {
@@ -108,13 +108,19 @@ void randomMode(){
             ie.clearInput();
         }
     }
-    cout << "\nEND" << endl;
+    cin.ignore();
+    Table mainTable(numOfPlayers);
+    Game randGame(&mainTable);
+    randGame.setup();
+    
+    newLine(1);
 }
 void manualMode(){
     cout << "Manual mode will be here" << endl;
 }
 
 void newLine(int amount){
+    cout << "-------------------------------------------------------------------------------------------" << endl;
     for (int i=0; i<amount; i++)
         cout << "\n";
 }

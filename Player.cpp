@@ -13,7 +13,7 @@ void Player::getCard(const Card &card){
 }
 
 void Player::print(){
-    for (int i =0; i<amountOfCards; i++) {
+    for (int i =0; i<amountOfCards; i++){
         hand[i].print();
     }
 }
