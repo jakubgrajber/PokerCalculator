@@ -18,9 +18,8 @@ Table::Table(int amountOfPlayers){
 
 void Table::pocketAssignment(){
     for (int i =0; i<amountOfPlayers; i++) {
-        for (int j=0; j<2; j++) {
-            player[i].getCard(deck[deckPosition++]);
-        }
+        for (int j=0; j<2; j++)
+            player[i].hand.updateHand(deck[deckPosition++]);
     }
 }
 

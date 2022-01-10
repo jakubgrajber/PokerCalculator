@@ -8,17 +8,17 @@
 #ifndef Player_hpp
 #define Player_hpp
 
-#include "Card.hpp"
+#include "Hand.hpp"
 #include <vector>
 
 class Player{
 private:
-    std::vector<Card> hand;
+    Hand hand;
     int amountOfCards;
     double winningPercentage;
 public:
+    friend class Table;
     Player(){amountOfCards =0;};
-    void getCard(const Card &card);
     void print();
     ~Player(){};
 };

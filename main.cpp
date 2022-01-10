@@ -9,9 +9,12 @@
 #include <cstdlib>
 #include "Table.hpp"
 #include "Game.hpp"
+#include "Hand.hpp"
+#include "Card.hpp"
 #include "exc_mainMenu.h"
+#include <vector>
 
-
+using std::vector;
 using std::cout;
 using std::endl;
 using std::cin;
@@ -26,7 +29,20 @@ int getSelection(int min, int max);
 
 
 int main() {
-    mainMenu();
+    vector <Card> test;
+    Card f(14,spade);
+    Card s(2,spade);
+    Card t(3, spade);
+    test.push_back(f);
+    test.push_back(s);
+    test.push_back(t);
+    
+    Hand hand;
+    hand.updateHand(test);
+    hand.print();
+    cout << endl;
+    test[0] = Card(13, spade);
+    hand.print();
     
     return 0;
 }

@@ -18,13 +18,13 @@ using std::vector;
 
 class Hand{
 private:
-    vector<Card> hand;
+    vector<const Card*> hand;
     eHandValue value;
     int capacity;
 public:
     Hand(){capacity =0;};
     void setValue();
-    void updateHand(const vector<Card>& card);
+    void updateHand(const vector<Card> &card);
     void updateHand(const Card & card);
     void print();
     ~Hand(){};
