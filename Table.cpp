@@ -14,11 +14,6 @@ Table::Table(int amountOfPlayers){
     player = new Player[amountOfPlayers];
     this->amountOfPlayers = amountOfPlayers;
     deckPosition = 0;
-    for (int i =0; i<3; i++)
-        flop[i] = nullptr;
-    turn = nullptr;
-    river = nullptr;
-    
 }
 
 void Table::pocketAssignment(){
@@ -32,17 +27,13 @@ void Table::pocketAssignment(){
 void Table::flopAssignment(){
     deckPosition++;
     for (int i=0; i<3; i++) {
-        flop[i] = &deck[deckPosition++];
+        communityCards.push_back(&deck[deckPosition++]);
     }
 }
 
-void Table::turnAssignment(){
+void Table::turnRiverAssignment(){
     deckPosition++;
-    turn = &deck[deckPosition++];
-}
-void Table::riverAssignment(){
-    deckPosition++;
-    river = &deck[deckPosition++];
+    communityCards.push_back(&deck[deckPosition++]);
 }
 
 void Table::print(){
@@ -53,19 +44,19 @@ for (int i =0; i<amountOfPlayers; i++) {
     }
     std::cout << std::endl;
     
-    if (flop[0] != nullptr) {
+    if (communityCards.size()>0) {
         std::cout << "FLOP: ";
         for (int i=0; i<3; i++) {
-            flop[i]->print();
+            communityCards[i]->print();
         }
     }
-    if (turn != nullptr) {
+    if (communityCards.size()>3) {
         std::cout << "  TURN: ";
-        turn->print();
+        communityCards[3]->print();
     }
-    if (river!= nullptr) {
+    if (communityCards.size()>4) {
         std::cout << "  RIVER: ";
-        river->print();
+        communityCards[4]->print();
     }
     std::cout << std::endl;
 }

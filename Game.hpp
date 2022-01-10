@@ -13,12 +13,11 @@
 
 class Game{
 private:
-    friend class Table;
     Table *copyTable;
 public:
     Game(){copyTable = NULL;};
     Game(Table *table);
-    void setup();
+    virtual void setup();
     void draw();
     ~Game(){};
 };

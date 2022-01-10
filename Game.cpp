@@ -18,18 +18,22 @@ void Game::setup(){
     waitForUser();
     copyTable->pocketAssignment();
     this->draw();
+    
     std::cout << "Show the flop. ";
     waitForUser();
     copyTable->flopAssignment();
     this->draw();
+    
     std::cout << "Show the turn. ";
     waitForUser();
-    copyTable->turnAssignment();
+    copyTable->turnRiverAssignment();
     this->draw();
+    
     std::cout << "Show the river. ";
     waitForUser();
-    copyTable->riverAssignment();
+    copyTable->turnRiverAssignment();
     this->draw();
+    
     waitForUser();
 }
 

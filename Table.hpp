@@ -11,15 +11,14 @@
 #include <memory>
 #include "Player.hpp"
 #include "Deck.hpp"
+#include <vector>
 
 
 class Table{
 private:
     Player *player;
     Deck deck;
-    const Card *flop[3];
-    const Card *turn;
-    const Card *river;
+    std::vector <const Card*> communityCards; //0-2 flop, 3 turn, 4 river
     
     int amountOfPlayers;
     int deckPosition;
@@ -27,8 +26,7 @@ public:
     Table(int amountOfPlayers);
     void pocketAssignment();
     void flopAssignment();
-    void turnAssignment();
-    void riverAssignment();
+    void turnRiverAssignment();
     void print();
     ~Table();
 };

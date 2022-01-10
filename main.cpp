@@ -20,6 +20,7 @@ void mainMenu();
 void randomMode();
 void manualMode();
 void newLine(int value);
+void getNumOfPlayers(int &x);
 int getSelection(int min, int max);
 
 
@@ -94,7 +95,37 @@ void mainMenu(){
 
 void randomMode(){
     newLine(1);
-    int numOfPlayers = 0;
+    int numOfPlayers;
+    getNumOfPlayers(numOfPlayers);
+    
+    cin.ignore();
+    Table mainTable(numOfPlayers);
+    Game randGame(&mainTable);
+    randGame.setup();
+    
+    newLine(1);
+}
+void manualMode(){
+    newLine(1);
+    cout << "NOTHING HERE :c" << endl;
+//    int numOfPlayers;
+//    getNumOfPlayers(numOfPlayers);
+//
+//    cin.ignore();
+//    Table mainTable(numOfPlayers);
+//    Game manualGame(&mainTable);
+}
+
+void newLine(int amount){
+    for (int i=0; i<amount; i++)
+        cout << "\n";
+    cout << "-------------------------------------------------------------------------------------------" << endl;
+    for (int i=0; i<amount; i++)
+        cout << "\n";
+}
+
+void getNumOfPlayers(int &numOfPlayers){
+    numOfPlayers = 0;
     
     while (numOfPlayers==0) {
         cout << "Enter the number of players (up to 10): ";
@@ -108,21 +139,6 @@ void randomMode(){
             ie.clearInput();
         }
     }
-    cin.ignore();
-    Table mainTable(numOfPlayers);
-    Game randGame(&mainTable);
-    randGame.setup();
-    
-    newLine(1);
-}
-void manualMode(){
-    cout << "Manual mode will be here" << endl;
-}
-
-void newLine(int amount){
-    cout << "-------------------------------------------------------------------------------------------" << endl;
-    for (int i=0; i<amount; i++)
-        cout << "\n";
 }
 
 int getSelection(int min, int max){
