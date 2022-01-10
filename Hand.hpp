@@ -26,6 +26,7 @@ public:
     void setValue();
     void updateHand(const vector<Card> &card);
     void updateHand(const Card & card);
+    void addCommunityCards(const vector<const Card*> & cards);
     void print();
     ~Hand(){};
 };

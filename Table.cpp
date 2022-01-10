@@ -26,13 +26,19 @@ void Table::pocketAssignment(){
 void Table::flopAssignment(){
     deckPosition++;
     for (int i=0; i<3; i++) {
-        communityCards.push_back(&deck[deckPosition++]);
+        communityCards.push_back(&deck[deckPosition]);
+        for (int i =0; i<amountOfPlayers; i++)
+            player[i].hand.updateHand(deck[deckPosition]);
+        deckPosition++;
     }
 }
 
 void Table::turnRiverAssignment(){
     deckPosition++;
-    communityCards.push_back(&deck[deckPosition++]);
+    communityCards.push_back(&deck[deckPosition]);
+    for (int i =0; i<amountOfPlayers; i++)
+        player[i].hand.updateHand(deck[deckPosition]);
+    deckPosition++;
 }
 
 void Table::print(){
@@ -63,5 +69,6 @@ for (int i =0; i<amountOfPlayers; i++) {
 Table::~Table(){
     delete [] player;
 }
+
 
 
