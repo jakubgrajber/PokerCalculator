@@ -22,8 +22,8 @@ eColor intToColor(int x){
         case 3:
             return heart;
         default:
-            return error;
-        }
+            return spade;
+    }
 }
 
 Deck::Deck(){

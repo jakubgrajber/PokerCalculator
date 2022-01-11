@@ -27,6 +27,13 @@ public:
     void pocketAssignment();
     void flopAssignment();
     void turnRiverAssignment();
+    
+    void pocket();
+    void flop();
+    void turn();
+    void river();
+    
+    
     void print();
     ~Table();
 };

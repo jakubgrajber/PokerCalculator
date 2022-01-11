@@ -16,6 +16,29 @@ Table::Table(int amountOfPlayers){
     deckPosition = 0;
 }
 
+void Table::pocket(){
+    for (int i = 0; i<amountOfPlayers; i++) {
+        player[i].hand.checkPocket();
+    }
+}
+
+void Table::flop(){
+    for (int i = 0; i<amountOfPlayers; i++) {
+        player[i].hand.checkFlop();
+    }
+}
+void Table::turn(){
+    for (int i = 0; i<amountOfPlayers; i++) {
+        player[i].hand.checkTurn();
+    }
+}
+void Table::river(){
+    for (int i = 0; i<amountOfPlayers; i++) {
+        player[i].hand.checkRiver();
+    }
+}
+
+
 void Table::pocketAssignment(){
     for (int i =0; i<amountOfPlayers; i++) {
         for (int j=0; j<2; j++)

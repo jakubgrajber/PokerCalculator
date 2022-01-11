@@ -17,21 +17,25 @@ void Game::setup(){
     std::cout << "Show the pocket cards. ";
     waitForUser();
     copyTable->pocketAssignment();
+    copyTable->pocket();
     this->draw();
     
     std::cout << "Show the flop. ";
     waitForUser();
     copyTable->flopAssignment();
+    copyTable->flop();
     this->draw();
     
     std::cout << "Show the turn. ";
     waitForUser();
     copyTable->turnRiverAssignment();
+    copyTable->turn();
     this->draw();
     
     std::cout << "Show the river. ";
     waitForUser();
     copyTable->turnRiverAssignment();
+    copyTable->river();
     this->draw();
     
     waitForUser();

@@ -12,7 +12,7 @@
 #include <iostream>
 using std::ostream;
 
-enum eColor {spade = 0, club, diamond, heart, error};
+enum eColor {spade = 0, club, diamond, heart};
 
 class Card{
 private:
@@ -26,6 +26,9 @@ public:
     void print() const;
     void printValue() const;
     void printColor() const;
+    
+    int getValue() const{return value;}
+    eColor getColor() const{return color;}
     
     bool operator==(const Card &a) const;
     bool operator>(const Card &a) const;
