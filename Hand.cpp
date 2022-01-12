@@ -15,56 +15,28 @@ Hand::Hand(){
     
     for (int i=0; i<13 ;i++)
         repeatedCards[i] = 0;
-    
     capacity = 0;
 }
 
-void Hand::updateHand(const vector<Card> &card){
+void Hand::getCards(const vector<Card> &card){
     for (auto i = card.begin(); i!=card.end(); i++) {
         this->hand.push_back(&*i);
         capacity++;
     }
 }
-void Hand::updateHand(const Card &card){
+void Hand::getCard(const Card &card){
     this->hand.push_back(&card);
     capacity++;
 }
 
-void Hand::checkPocket(){
-    checkRepeated(0, 1);
-    checkColor(0, 1);
-    checkStraight(0, 1);
-    setValue();
-//    std::cout << std::endl;
-//    for (int i=0; i<13; i++) {
-//        std::cout << repeatedCards[i] << " ";
-//    }
-//    std::cout << std::endl;
-//    for (int i=0; i<13; i++) {
-//        std::cout << *repeatedCardsSorted[i] << " ";
-//    }
-//    std::cout << std::endl;
-}
-void Hand::checkFlop(){
-    checkRepeated(2, 4);
-    checkColor(2, 4);
-    checkStraight(2, 4);
+void Hand::updateQualifiers(cmn::Stage stage){
+    int start, stop;
+    cmn::stageToDomain(stage, start, stop);
+    checkRepeated(start, stop);
+    checkColor(start, stop);
+    checkStraight(start, stop);
     setValue();
 }
-
-void Hand::checkTurn(){
-    checkRepeated(5, 5);
-    checkColor(5, 5);
-    checkStraight(5, 5);
-    setValue();
-}
-void Hand::checkRiver(){
-    checkRepeated(6, 6);
-    checkColor(6, 6);
-    checkStraight(6, 6);
-    setValue();
-}
-
 
 void Hand::setValue(){
     if (color.isComplete && straight.isComplete)
@@ -147,10 +119,10 @@ void Hand::print(){
     for (int i = 0; i<2; i++)
         hand[i]->print();
     std::cout << " ";
-    printHandValue();
+    printValue();
 }
 
-void Hand::printHandValue(){
+void Hand::printValue(){
     switch (value){
         case handValue::highcard:
             std::cout << "HIGH CARD    ";

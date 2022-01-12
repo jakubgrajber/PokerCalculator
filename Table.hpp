@@ -12,27 +12,35 @@
 #include "Player.hpp"
 #include "Deck.hpp"
 #include <vector>
+#include "Common.hpp"
+
+
 
 
 class Table{
 private:
     Player *player;
     Deck deck;
-    std::vector <const Card*> communityCards; //0-2 flop, 3 turn, 4 river
+    std::vector <const Card*> communityCards;
+    
+    cmn::Mode mode;
+    cmn::Stage stage;
     
     int amountOfPlayers;
     int deckPosition;
-public:
-    Table(int amountOfPlayers);
+    
     void pocketAssignment();
-    void flopAssignment();
-    void turnRiverAssignment();
+    void messageRandomMode();
+    void messageManualMode();
+public:
+    friend class Game;
     
-    void pocket();
-    void flop();
-    void turn();
-    void river();
+    Table(int amountOfPlayers);
     
+    void cardsAssignment();
+    void playersUpdate();
+    void message();
+    void stageChange();
     
     void print();
     ~Table();

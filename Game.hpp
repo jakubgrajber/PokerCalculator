@@ -13,13 +13,16 @@
 
 class Game{
 private:
-    Table *copyTable;
+    Table *table;
 public:
-    Game(){copyTable = NULL;};
+    Game(){table = NULL;};
     Game(Table *table);
-    virtual void setup();
+    void randomMode();
+    void manualMode();
+    void modifyMode();
     void draw();
     ~Game(){};
 };
+
 
 #endif /* Game_hpp */

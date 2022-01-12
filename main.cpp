@@ -7,12 +7,10 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "Table.hpp"
 #include "Game.hpp"
-#include "Hand.hpp"
-#include "Card.hpp"
 #include "exc_mainMenu.h"
 #include <vector>
+
 
 
 using std::vector;
@@ -105,19 +103,19 @@ void randomMode(){
     cin.ignore();
     Table mainTable(numOfPlayers);
     Game randGame(&mainTable);
-    randGame.setup();
+    randGame.randomMode();
     
     newLine(1);
 }
 void manualMode(){
     newLine(1);
-    cout << "NOTHING HERE :c" << endl;
-//    int numOfPlayers;
-//    getNumOfPlayers(numOfPlayers);
-//
-//    cin.ignore();
-//    Table mainTable(numOfPlayers);
-//    Game manualGame(&mainTable);
+    int numOfPlayers;
+    getNumOfPlayers(numOfPlayers);
+
+    cin.ignore();
+    Table mainTable(numOfPlayers);
+    Game manualGame(&mainTable);
+    manualGame.manualMode();
 }
 
 void newLine(int amount){

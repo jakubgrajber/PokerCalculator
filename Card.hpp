@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <iostream>
+
 using std::ostream;
 
 enum eColor {spade = 0, club, diamond, heart};

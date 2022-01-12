@@ -7,46 +7,45 @@
 
 #include "Game.hpp"
 
+using std::cout;
+using std::endl;
+
 void waitForUser();
 
 Game::Game(Table *table){
-    this->copyTable = table;
+    this->table = table;
 }
 
-void Game::setup(){
-    std::cout << "Show the pocket cards. ";
+void Game::randomMode(){
+    table->mode = cmn::random;
+    while (table->stage != cmn::end) {
+        table->message();
+        waitForUser();
+        table->cardsAssignment();
+        table->playersUpdate();
+        this->draw();
+        table->stageChange();
+    }
     waitForUser();
-    copyTable->pocketAssignment();
-    copyTable->pocket();
-    this->draw();
-    
-    std::cout << "Show the flop. ";
-    waitForUser();
-    copyTable->flopAssignment();
-    copyTable->flop();
-    this->draw();
-    
-    std::cout << "Show the turn. ";
-    waitForUser();
-    copyTable->turnRiverAssignment();
-    copyTable->turn();
-    this->draw();
-    
-    std::cout << "Show the river. ";
-    waitForUser();
-    copyTable->turnRiverAssignment();
-    copyTable->river();
-    this->draw();
-    
-    waitForUser();
+}
+
+void Game::manualMode(){
+    table->mode = cmn::manual;
+    while (table->stage != cmn::end) {
+        table->message();
+        //cards input
+        waitForUser();
+        table->stageChange();
+    }
 }
 
 void Game::draw(){
-    copyTable->print();
+    table->print();
 }
+
 
 void waitForUser(){
     do{
-        std::cout << "Press enter to continue..." << std::endl;
+        cout << "Press enter to continue..." << endl;
      } while (std::cin.get() != '\n');
 }
