@@ -7,6 +7,8 @@
 
 #include "Card.hpp"
 
+eColor charToColor(char input);
+int charToValue(char input);
 
 Card::Card(int value, eColor color){
     this->value = value;
@@ -76,6 +78,26 @@ void Card::printColor() const{
     }
 }
 
+Card& Card::operator=(Card &card){
+    this->value = card.value;
+    this->color = card.color;
+    
+    return *this;
+}
+
+Card& Card::operator=(std::string input){
+    if (isdigit(input[0])) {
+        value = input[0] - '0';
+        color = charToColor(input[1]);
+    }
+    else{
+        value = charToValue(input[0]);
+        color = charToColor(input[1]);
+    }
+    
+    return *this;
+}
+
 bool Card::operator==(const Card &a) const {
     return ((this->value == a.value) && (this->color == a.color));
 }
@@ -86,4 +108,46 @@ bool Card::operator<(const Card &a) const {
 
 bool Card::operator>(const Card &a) const {
     return (this->value > a.value);
+}
+
+eColor charToColor(char input){
+    switch (input) {
+        case 'S':
+            return spade;
+            break;
+        case 'D':
+            return diamond;
+            break;
+        case 'H':
+            return heart;
+            break;
+        case 'C':
+            return club;
+            break;
+        default:
+            return spade;
+            break;
+    }
+}
+
+int charToValue(char input){
+    switch (input) {
+        case 'A':
+            return 14;
+            break;
+        case 'K':
+            return 13;
+            break;
+        case 'Q':
+            return 12;
+            break;
+        case 'J':
+            return 11;
+            break;
+        case 'T':
+            return 10;
+        default:
+            return 0;
+            break;
+    }
 }

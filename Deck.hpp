@@ -10,6 +10,7 @@
 
 #include <algorithm>
 #include <random>
+
 #include "Card.hpp"
 
 
@@ -20,6 +21,7 @@ class Deck{
 private:
     Card card[DECK_SIZE];
 public:
+    friend class Table;
     Deck();
     
     friend eColor intToColor(int value);

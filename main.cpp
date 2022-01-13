@@ -10,6 +10,7 @@
 #include "Game.hpp"
 #include "exc_mainMenu.h"
 #include <vector>
+#include <string>
 
 
 

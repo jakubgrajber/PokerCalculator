@@ -13,6 +13,8 @@
 #include "Deck.hpp"
 #include <vector>
 #include "Common.hpp"
+#include "exc_inputCards.h"
+#include <string>
 
 
 
@@ -30,13 +32,16 @@ private:
     int deckPosition;
     
     void pocketAssignment();
+    void pocketCardsInput();
     void messageRandomMode();
     void messageManualMode();
+    std::string enterCardName();
 public:
     friend class Game;
     
     Table(int amountOfPlayers);
     
+    void cardsInput();
     void cardsAssignment();
     void playersUpdate();
     void message();

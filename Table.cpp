@@ -7,6 +7,7 @@
 
 #include "Table.hpp"
 
+
 Table::Table(int amountOfPlayers){
     if(amountOfPlayers>10)
         amountOfPlayers =10;
@@ -20,6 +21,39 @@ Table::Table(int amountOfPlayers){
 void Table::playersUpdate(){
     for (int i = 0; i<amountOfPlayers; i++)
         player[i].hand.updateQualifiers(this->stage);
+}
+
+void Table::cardsInput(){
+    switch (this->stage) {
+        case cmn::pocket:
+            pocketCardsInput();
+            break;
+        default:
+            break;
+    }
+}
+
+void Table::pocketCardsInput(){
+    Card tempCard;
+    bool isUnique;
+    for(int i =0; i<amountOfPlayers; i++){
+        std::cout << "Player " << i+1 <<": ";
+        for (int j =0 ; j<2; j++){
+            while (!isUnique) {
+                tempCard = enterCardName();
+                isUnique = true;
+                for (int i =0; i<deckPosition; i++) {
+                    if(tempCard == deck[i]){
+                        isUnique = false;
+                        break;
+                    }
+                }
+                std::cout<<"This card is already chosen." << std::endl;
+            }
+            deck.card[deckPosition] = tempCard;
+            deck[deckPosition++].print();
+        }
+    }
 }
 
 void Table::cardsAssignment(){
@@ -88,6 +122,9 @@ void Table::messageRandomMode(){
 void Table::messageManualMode(){
     switch (this->stage) {
         case cmn::pocket:
+            std::cout << "A K Q J T 9 8 7 6 5 4 3 2" << std::endl;
+            std::cout << "♠︎ - S, ♣︎ - C, ♦︎ - D, ♥︎ - H" << std::endl;
+            std::cout << "e.g. for |7♦︎| enter 7D" << std::endl;
             std::cout << "Enter pocket cards for each player. ";
             break;
         case cmn::flop:
@@ -148,6 +185,29 @@ void Table::stageChange(){
         default:
             break;
     }
+}
+
+std::string Table::enterCardName(){
+    std::string input;
+    while (!input.size()) {
+        try {
+            std::cin>>input;
+            if (input.size()!=2)
+                throw inputCardsError();
+            for (int i =0; i<2; i++)
+                if(!isdigit(input[i]))
+                    input[i] = toupper(input[i]);
+            if (input[0] != 'A' && input[0] != 'K' && input[0] != 'Q' && input[0] != 'J' && input[0] != 'T' && !isdigit(input[0]))
+                throw inputCardsError();
+            if (input[1] != 'S' && input[1] != 'C' && input[1] != 'H' && input[1] != 'D')
+                throw inputCardsError();
+        } catch (inputCardsError & error) {
+            error.message();
+            error.clearInput();
+            input = "";
+        }
+    }
+    return input;
 }
 
 Table::~Table(){

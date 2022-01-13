@@ -9,6 +9,7 @@
 #define Common_hpp
 
 #include <stdio.h>
+#include <string>
 
 namespace cmn {
 

@@ -33,6 +33,7 @@ void Game::manualMode(){
     table->mode = cmn::manual;
     while (table->stage != cmn::end) {
         table->message();
+        table->cardsInput();
         //cards input
         waitForUser();
         table->stageChange();

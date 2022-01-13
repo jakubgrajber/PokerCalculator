@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <string>
 
 using std::ostream;
 
@@ -22,7 +23,7 @@ private:
 public:
     Card(){};
     Card(int value, eColor color);
-//    Card(const Card &a);
+//  Card(const Card &a);
     
     void print() const;
     void printValue() const;
@@ -31,6 +32,8 @@ public:
     int getValue() const{return value;}
     eColor getColor() const{return color;}
     
+    Card& operator=(Card & card);
+    Card& operator=(std::string input);
     bool operator==(const Card &a) const;
     bool operator>(const Card &a) const;
     bool operator<(const Card &a) const;
