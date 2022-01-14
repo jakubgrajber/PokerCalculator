@@ -19,55 +19,96 @@ Table::Table(int amountOfPlayers){
 }
 
 void Table::cardsInput(){
+    int limit =0;
     switch (this->stage) {
         case cmn::pocket:
             pocketCardsInput();
-            break;
+            return;
         case cmn::flop:
+            limit = 3;
             break;
         case cmn::turn: case cmn::river:
+            limit =1;
             break;
         default:
-            break;
+            return;
     }
+    for (int i=0; i<limit; i++)
+        uniqueCardInput();
+    std::cin.ignore(INT_MAX, '\n');
 }
 
 void Table::pocketCardsInput(){
-    Card tempCard;
-    bool isUnique;
     for(int i =0; i<amountOfPlayers; i++){
-        std::cout << "Player " << i+1 <<": ";
-        for (int j =0 ; j<2; j++){
-            isUnique = false;
-            while (!isUnique) {
-                tempCard = enterCardName();
-                isUnique = true;
-                for (int i =0; i<deckPosition; i++) {
-                    if(tempCard == deck[i]){
-                        isUnique = false;
-                        std::cout << "This card is already chosen." << std::endl;
-                        break;
-                    }
-                }
+        std::cout << "\nPlayer " << i+1 <<": ";
+        for (int j =0 ; j<2; j++)
+            uniqueCardInput();
+        std::cin.ignore(INT_MAX, '\n');
+    }
+}
+void Table::uniqueCardInput(){
+    Card tempCard;
+    bool isUnique = false;
+    while (!isUnique) {
+        tempCard = enterCardName();;
+        isUnique = true;
+        for (int i = 0; i<deckPosition; i++) {
+            if (tempCard == deck[i]) {
+                isUnique = false;
+                std::cout << tempCard << " is already chosen." << std::endl;
+                break;
             }
-            deck.card[deckPosition++] = tempCard;
         }
     }
+    deck.card[deckPosition++] = tempCard;
+}
+
+std::string Table::enterCardName(){
+    std::string input;
+    while (!input.size()) {
+        try {
+            std::cin>>input;
+            if (input.size()!=2)
+                throw inputCardsError();
+            for (int i =0; i<2; i++)
+                if(!isdigit(input[i]))
+                    input[i] = toupper(input[i]);
+            if (input[0] - '0' < 2)
+                throw inputCardsError();
+            if (input[0] != 'A' && input[0] != 'K' && input[0] != 'Q' && input[0] != 'J' && input[0] != 'T' && !isdigit(input[0]))
+                throw inputCardsError();
+            if (input[1] != 'S' && input[1] != 'C' && input[1] != 'H' && input[1] != 'D')
+                throw inputCardsError();
+        } catch (inputCardsError & error) {
+            error.message();
+            error.clearInput();
+            input = "";
+        }
+    }
+    return input;
 }
 
 void Table::cardsAssignment(){
     int limit = 0;
-    if (mode == cmn::manual) {
-        deckPosition =0;
-    }
     switch (this->stage) {
         case cmn::pocket:
+            if (mode == cmn::manual)
+                deckPosition =0;
             pocketAssignment();
             break;
         case cmn::flop:
+            if (mode == cmn::manual)
+                deckPosition = amountOfPlayers*2;
             limit=3;
             break;
-        case cmn::turn: case cmn::river:
+        case cmn::turn:
+            if (mode == cmn::manual)
+                deckPosition = amountOfPlayers*2 + 3;
+            limit=1;
+            break;
+        case cmn::river:
+            if (mode == cmn::manual)
+                deckPosition =amountOfPlayers*2 +4;
             limit=1;
             break;
         default:
@@ -129,19 +170,19 @@ void Table::messageRandomMode(){
 void Table::messageManualMode(){
     switch (this->stage) {
         case cmn::pocket:
-            std::cout << "A K Q J T 9 8 7 6 5 4 3 2" << std::endl;
+            std::cout << "\nA K Q J T 9 8 7 6 5 4 3 2" << std::endl;
             std::cout << "♠︎ - S, ♣︎ - C, ♦︎ - D, ♥︎ - H" << std::endl;
-            std::cout << "e.g. for |7♦︎| enter 7D" << std::endl;
+            std::cout << "\ne.g. for |7♦︎| enter 7D or 7d" << std::endl;
             std::cout << "Enter pocket cards for each player. " << std::endl;
             break;
         case cmn::flop:
-            std::cout << "Enter flop cards into the game. ";
+            std::cout << "\nEnter flop cards into the game. " << std::endl;
             break;
         case cmn::turn:
-            std::cout << "Select turn card.  ";
+            std::cout << "\nSelect turn card.  " << std::endl;
             break;
         case cmn::river:
-            std::cout << "Select river card.  ";
+            std::cout << "\nSelect river card.  " << std::endl;
             break;
         default:
             break;
@@ -168,18 +209,18 @@ void Table::stageChange(){
 }
 
 void Table::print(){
+    std::cout << std::endl;
 for (int i =0; i<amountOfPlayers; i++) {
     std::cout << "Player " << i+1 << ": ";
     player[i].print();
     std::cout << std::endl;
     }
-    std::cout << std::endl;
+    
     
     if (communityCards.size()>0) {
-        std::cout << "FLOP: ";
-        for (int i=0; i<3; i++) {
+        std::cout << "\nFLOP: ";
+        for (int i=0; i<3; i++)
             communityCards[i]->print();
-        }
     }
     if (communityCards.size()>3) {
         std::cout << "  TURN: ";
@@ -189,30 +230,8 @@ for (int i =0; i<amountOfPlayers; i++) {
         std::cout << "  RIVER: ";
         communityCards[4]->print();
     }
-    std::cout << std::endl;
-}
-
-std::string Table::enterCardName(){
-    std::string input;
-    while (!input.size()) {
-        try {
-            std::cin>>input;
-            if (input.size()!=2)
-                throw inputCardsError();
-            for (int i =0; i<2; i++)
-                if(!isdigit(input[i]))
-                    input[i] = toupper(input[i]);
-            if (input[0] != 'A' && input[0] != 'K' && input[0] != 'Q' && input[0] != 'J' && input[0] != 'T' && !isdigit(input[0]))
-                throw inputCardsError();
-            if (input[1] != 'S' && input[1] != 'C' && input[1] != 'H' && input[1] != 'D')
-                throw inputCardsError();
-        } catch (inputCardsError & error) {
-            error.message();
-            error.clearInput();
-            input = "";
-        }
-    }
-    return input;
+    if (communityCards.size()>0)
+        std::cout<<std::endl;
 }
 
 Table::~Table(){

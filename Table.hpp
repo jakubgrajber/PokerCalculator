@@ -36,6 +36,7 @@ private:
     void messageRandomMode();
     void messageManualMode();
     std::string enterCardName();
+    void uniqueCardInput();
 public:
     friend class Game;
     

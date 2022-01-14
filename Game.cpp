@@ -37,8 +37,6 @@ void Game::manualMode(){
         table->cardsAssignment();
         table->playersUpdate();
         this->draw();
-        //cards input
-        waitForUser();
         table->stageChange();
     }
 }

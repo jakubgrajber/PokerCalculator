@@ -8,7 +8,10 @@
 #include "Card.hpp"
 
 eColor charToColor(char input);
-int charToValue(char input);
+char charToValue(char input);
+
+char valueToChar(int value);
+std::string colorToChar(eColor input);
 
 Card::Card(int value, eColor color){
     this->value = value;
@@ -110,6 +113,11 @@ bool Card::operator>(const Card &a) const {
     return (this->value > a.value);
 }
 
+ostream & operator<<(ostream &os, const Card &card){
+    os << "|" << valueToChar(card.value) << colorToChar(card.color) << "|";
+    return os;
+}
+
 eColor charToColor(char input){
     switch (input) {
         case 'S':
@@ -130,7 +138,7 @@ eColor charToColor(char input){
     }
 }
 
-int charToValue(char input){
+char charToValue(char input){
     switch (input) {
         case 'A':
             return 14;
@@ -148,6 +156,53 @@ int charToValue(char input){
             return 10;
         default:
             return 0;
+            break;
+    }
+}
+
+char valueToChar(int value){
+    if (value <10) {
+        return value + '0';
+    }
+    else{
+        switch (value) {
+            case 10:
+                return 'T';
+                break;
+            case 11:
+                return 'J';
+                break;
+            case 12:
+                return 'Q';
+                break;
+            case 13:
+                return 'K';
+                break;
+            case 14:
+                return 'A';
+                break;
+            default:
+                return ' ';
+                break;
+        }
+    }
+}
+
+std::string colorToChar(eColor color){
+    switch (color) {
+        case spade:
+            return "♠︎";
+            break;
+        case heart:
+            return "♥︎";
+            break;
+        case diamond:
+            return "♦︎";
+            break;
+        case club:
+            return "♣︎";
+            break;
+        default:
             break;
     }
 }
