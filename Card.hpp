@@ -32,7 +32,7 @@ public:
     int getValue() const{return value;}
     eColor getColor() const{return color;}
     
-    Card& operator=(Card & card);
+    //Card& operator=(Card & card);
     Card& operator=(std::string input);
     bool operator==(const Card &a) const;
     bool operator>(const Card &a) const;

@@ -18,15 +18,14 @@ Table::Table(int amountOfPlayers){
     stage = cmn::pocket;
 }
 
-void Table::playersUpdate(){
-    for (int i = 0; i<amountOfPlayers; i++)
-        player[i].hand.updateQualifiers(this->stage);
-}
-
 void Table::cardsInput(){
     switch (this->stage) {
         case cmn::pocket:
             pocketCardsInput();
+            break;
+        case cmn::flop:
+            break;
+        case cmn::turn: case cmn::river:
             break;
         default:
             break;
@@ -39,25 +38,28 @@ void Table::pocketCardsInput(){
     for(int i =0; i<amountOfPlayers; i++){
         std::cout << "Player " << i+1 <<": ";
         for (int j =0 ; j<2; j++){
+            isUnique = false;
             while (!isUnique) {
                 tempCard = enterCardName();
                 isUnique = true;
                 for (int i =0; i<deckPosition; i++) {
                     if(tempCard == deck[i]){
                         isUnique = false;
+                        std::cout << "This card is already chosen." << std::endl;
                         break;
                     }
                 }
-                std::cout<<"This card is already chosen." << std::endl;
             }
-            deck.card[deckPosition] = tempCard;
-            deck[deckPosition++].print();
+            deck.card[deckPosition++] = tempCard;
         }
     }
 }
 
 void Table::cardsAssignment(){
     int limit = 0;
+    if (mode == cmn::manual) {
+        deckPosition =0;
+    }
     switch (this->stage) {
         case cmn::pocket:
             pocketAssignment();
@@ -85,6 +87,11 @@ void Table::pocketAssignment(){
         for (int j=0; j<2; j++)
             player[i].hand.getCard(deck[deckPosition++]);
     }
+}
+
+void Table::playersUpdate(){
+    for (int i = 0; i<amountOfPlayers; i++)
+        player[i].hand.updateQualifiers(this->stage);
 }
 
 void Table::message(){
@@ -125,7 +132,7 @@ void Table::messageManualMode(){
             std::cout << "A K Q J T 9 8 7 6 5 4 3 2" << std::endl;
             std::cout << "♠︎ - S, ♣︎ - C, ♦︎ - D, ♥︎ - H" << std::endl;
             std::cout << "e.g. for |7♦︎| enter 7D" << std::endl;
-            std::cout << "Enter pocket cards for each player. ";
+            std::cout << "Enter pocket cards for each player. " << std::endl;
             break;
         case cmn::flop:
             std::cout << "Enter flop cards into the game. ";
@@ -141,7 +148,24 @@ void Table::messageManualMode(){
     }
 }
 
-
+void Table::stageChange(){
+    switch (stage) {
+        case cmn::pocket:
+            stage=cmn::flop;
+            break;
+        case cmn::flop:
+            stage=cmn::turn;
+            break;
+        case cmn::turn:
+            stage=cmn::river;
+            break;
+        case cmn::river:
+            stage=cmn::end;
+            break;
+        default:
+            break;
+    }
+}
 
 void Table::print(){
 for (int i =0; i<amountOfPlayers; i++) {
@@ -166,25 +190,6 @@ for (int i =0; i<amountOfPlayers; i++) {
         communityCards[4]->print();
     }
     std::cout << std::endl;
-}
-
-void Table::stageChange(){
-    switch (stage) {
-        case cmn::pocket:
-            stage=cmn::flop;
-            break;
-        case cmn::flop:
-            stage=cmn::turn;
-            break;
-        case cmn::turn:
-            stage=cmn::river;
-            break;
-        case cmn::river:
-            stage=cmn::end;
-            break;
-        default:
-            break;
-    }
 }
 
 std::string Table::enterCardName(){

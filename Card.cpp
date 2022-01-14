@@ -78,12 +78,12 @@ void Card::printColor() const{
     }
 }
 
-Card& Card::operator=(Card &card){
-    this->value = card.value;
-    this->color = card.color;
-    
-    return *this;
-}
+//Card& Card::operator=(Card &card){
+//    this->value = card.value;
+//    this->color = card.color;
+//
+//    return *this;
+//}
 
 Card& Card::operator=(std::string input){
     if (isdigit(input[0])) {
