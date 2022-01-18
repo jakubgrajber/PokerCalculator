@@ -37,6 +37,7 @@ void Game::manualMode(){
         table->cardsAssignment();
         table->playersUpdate();
         this->draw();
+        table->setWinner();
         table->stageChange();
     }
 }

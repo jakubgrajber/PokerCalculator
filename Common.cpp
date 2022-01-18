@@ -28,3 +28,20 @@ void cmn::stageToDomain(Stage stage, int &start, int &stop){
             break;
     }
 }
+
+void cmn::insertionSort(int (*arr)[2], int size, int comparingPosition){
+    for(int i=1; i<size; i++){
+        int j=i;
+        int temp[2];
+        temp[0]= arr[j][0];
+        temp[1]= arr[j][1];
+        
+        while ((j>0) && (arr[j-1][comparingPosition]<temp[comparingPosition])){
+            arr[j][0]=arr[j-1][0];
+            arr[j][1]=arr[j-1][1];
+            j--;
+        }
+        arr[j][0] = temp[0];
+        arr[j][1] = temp[1];
+    }
+}

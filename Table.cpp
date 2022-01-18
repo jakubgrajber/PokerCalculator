@@ -212,10 +212,12 @@ void Table::print(){
     std::cout << std::endl;
 for (int i =0; i<amountOfPlayers; i++) {
     std::cout << "Player " << i+1 << ": ";
-    player[i].print();
+    if (stage == cmn::river)
+        player[i].hand.printBestFive();
+    else
+        player[i].hand.print();
     std::cout << std::endl;
     }
-    
     
     if (communityCards.size()>0) {
         std::cout << "\nFLOP: ";
@@ -232,6 +234,30 @@ for (int i =0; i<amountOfPlayers; i++) {
     }
     if (communityCards.size()>0)
         std::cout<<std::endl;
+}
+
+void Table::setWinner(){
+    int winner_index = 0;
+    
+    for (int i=1;i<amountOfPlayers; i++) {
+        if (player[i].hand.value > player[winner_index].hand.value)
+            winner_index = i;
+        else if (player[i].hand.value == player[winner_index].hand.value) {
+            for (int i =0; i<player[i].hand.bestFive.size(); i++) {
+                if (player[i].hand.bestFive[i] > player[winner_index].hand.bestFive[i]) {
+                    winner_index = i;
+                    break;
+                }
+                if (player[i].hand.bestFive[i] < player[winner_index].hand.bestFive[i])
+                    break;
+                if (i==player[i].hand.bestFive.size()-1) {
+                    //takie same
+                }
+            }
+        }
+        
+    }
+    std::cout << "\nWinner is player nr " << winner_index+1 << std::endl;
 }
 
 Table::~Table(){

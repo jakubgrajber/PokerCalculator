@@ -17,10 +17,15 @@ namespace handValue{
 enum eHandValue {highcard, pair, twopairs, set, straight, flush, fullhouse, quads, straightflush};
 }
 
+struct SameCards{
+    handValue::eHandValue handValue;
+    int value[2][2] {0};
+};
 
 struct Straight{
     bool isComplete;
     bool cardFlag[14] {false};
+    int lastValue;
 };
 
 struct Color{
@@ -33,20 +38,30 @@ using std::vector;
 class Hand{
 private:
     vector<const Card*> hand;
+    vector<const Card*> bestFive;
     
     //qualifiers
     Straight straight;
     Color color;
-    int repeatedCards[13];
-    int *repeatedCardsSorted[13];
+    SameCards sameCards;
+    int repeatedCards[13][2];
+
     
     handValue::eHandValue value;
     int capacity;
+    
+    void setBestHighCard();
+    void setBestSameCards();
+    void setBestStraight();
+    void setBestFlush();
 public:
     Hand();
+    friend class Table;
+    
     void setValue();
     void getCards(const vector<Card> &card);
     void getCard(const Card & card);
+    void setBestFive();
     
     void updateQualifiers(cmn::Stage stage);
     
@@ -55,6 +70,11 @@ public:
     void checkStraight(int start, int stop);
     void print();
     void printValue();
+    void printBestFive();
+    
+    bool operator==(const Hand &hand) const;
+    bool operator>(const Hand &hand) const;
+    bool operator<(const Hand &hand) const;
     ~Hand(){};
 };
 #endif /* Hand_hpp */

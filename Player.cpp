@@ -9,6 +9,4 @@
 
 
 
-void Player::print(){
-    hand.print();
-}
+

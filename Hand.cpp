@@ -13,9 +13,10 @@ Hand::Hand(){
     color.isComplete = false;
     color.amountOfClubs = color.amountOfDiamonds = color.amountOfHearts = color.amountOfSpades = 0;
     
-    for (int i=0; i<13 ;i++)
-        repeatedCards[i] = 0;
-    capacity = 0;
+    for (int i =0; i<13; i++)
+        repeatedCards[i][0] = 0;
+    for (int i = 0; i<13; i++)
+        repeatedCards[i][1] = i+2;
 }
 
 void Hand::getCards(const vector<Card> &card){
@@ -36,36 +37,50 @@ void Hand::updateQualifiers(cmn::Stage stage){
     checkColor(start, stop);
     checkStraight(start, stop);
     setValue();
+    if (stage == cmn::river)
+        setBestFive();
 }
 
 void Hand::setValue(){
     if (color.isComplete && straight.isComplete)
         value = handValue::straightflush;
-    else if (*repeatedCardsSorted[0] == 4)
+    else if (sameCards.value[0][0] == 4)
         value = handValue::quads;
-    else if (*repeatedCardsSorted[0] == 3 && *repeatedCardsSorted[1] >= 2)
+    else if (sameCards.value[0][0] == 3 && sameCards.value[1][0] >= 2)
         value = handValue::fullhouse;
     else if (color.isComplete)
         value = handValue::flush;
     else if (straight.isComplete)
         value = handValue::straight;
-    else if (*repeatedCardsSorted[0] == 3)
+    else if (sameCards.value[0][0] == 3)
         value = handValue::set;
-    else if (*repeatedCardsSorted[0] == 2 && *repeatedCardsSorted[1] == 2)
+    else if (sameCards.value[0][0] == 2 && sameCards.value[1][0] == 2)
         value = handValue::twopairs;
-    else if (*repeatedCardsSorted[0] == 2)
+    else if (sameCards.value[0][0] == 2)
         value = handValue::pair;
     else
         value = handValue::highcard;
+    
 }
 
 void Hand::checkRepeated(int start, int stop){
-    for (int i=start; i<=stop; i++)
-        repeatedCards[hand[i]->Card::getValue() - 2]++;
     
-    for (int i = 0; i < 13; i++)
-        repeatedCardsSorted[i] = &repeatedCards[i];
-    std::sort(std::begin(repeatedCardsSorted), std::end(repeatedCardsSorted), [](int* a, int* b) { return *a > *b; });
+    for (int i=start; i<=stop; i++)
+        repeatedCards[hand[i]->Card::getValue()-2][0]++;
+    
+    int tempRepeatedCards[13][2];
+    for (int i =0; i<13; i++)
+        for (int j = 0; j<2; j++)
+            tempRepeatedCards[i][j] = repeatedCards[i][j];
+
+    cmn::insertionSort(tempRepeatedCards, 13, 0);
+    
+    if(tempRepeatedCards[0][0]+tempRepeatedCards[1][0]+tempRepeatedCards[2][0] == 6)
+        cmn::insertionSort(tempRepeatedCards, 3, 1);
+    
+    for (int i =0; i<2; i++)
+        for (int j=0; j<2; j++)
+            sameCards.value[i][j] = tempRepeatedCards[i][j];
 }
 
 void Hand::checkColor(int start, int stop){
@@ -95,9 +110,10 @@ void Hand::checkStraight(int start, int stop){
     if (!straight.isComplete){
         for (int i=start; i<=stop; i++)
             straight.cardFlag[hand[i]->getValue()-1] = true;
-        if (straight.cardFlag[13]) {
+        
+        if (straight.cardFlag[13])
             straight.cardFlag[0] = true;
-        }
+            
         int howManyStraightCards = 0;
         for (int i = 0; i < 14; i++)
         {
@@ -107,6 +123,7 @@ void Hand::checkStraight(int start, int stop){
                 howManyStraightCards = 0;
             if (howManyStraightCards == 5){
                 straight.isComplete = true;
+                straight.lastValue = i+1;
                 break;
             }
         }
@@ -152,5 +169,141 @@ void Hand::printValue(){
             std::cout << "STRAIGH FLUSH";
             break;
     }
+}
+
+void Hand::printBestFive(){
+    for (int i = 0; i<5; i++)
+        bestFive[i]->print();
+    std::cout << " ";
+    printValue();
+}
+
+void Hand::setBestFive(){
+    switch (value) {
+        case handValue::highcard:
+            setBestHighCard();
+            break;
+        case handValue::pair: case handValue::twopairs: case handValue::set: case handValue::fullhouse: case handValue::quads:
+            setBestSameCards();
+            break;
+        case handValue::straight: case handValue::straightflush:
+            setBestStraight();
+            break;
+        case handValue::flush:
+            setBestFlush();
+            break;
+        default:
+            break;
+    }
+}
+
+void Hand::setBestHighCard(){
+    bestFive = hand;
+    std::sort(std::begin(bestFive), std::end(bestFive), [](const Card *a, const Card *b) {return *a > *b;});
+    
+    while (bestFive.size()>5)
+        bestFive.pop_back();
+}
+
+void Hand::setBestSameCards(){
+    bestFive = hand;
+    
+    if (sameCards.value[0][0] == sameCards.value[1][0] && sameCards.value[0][1]<sameCards.value[1][1]) {
+        std::swap(sameCards.value[0][0], sameCards.value[1][0]);
+        std::swap(sameCards.value[0][1], sameCards.value[1][1]);
+    }
+    
+    for (int i =0; i<sameCards.value[0][0]; i++) {
+        if (bestFive[i]->value != sameCards.value[0][1]) {
+            for (int j = i+1; j<7; j++) {
+                if (bestFive[j]->value == sameCards.value[0][1]){
+                    std::swap(bestFive[i], bestFive[j]);
+                    break;
+                }
+            }
+        }
+    }
+    
+    for (int i =sameCards.value[0][0]; i<sameCards.value[0][0]+sameCards.value[1][0]; i++) {
+        if (bestFive[i]->value != sameCards.value[1][1]) {
+            for (int j = i+1; j<7; j++) {
+                if (bestFive[j]->value == sameCards.value[1][1]){
+                    std::swap(bestFive[i], bestFive[j]);
+                    break;
+                }
+            }
+        }
+    }
+    
+    int amountOfSwaps = sameCards.value[0][0] + sameCards.value[1][0];
+    
+    if (sameCards.value[1][0] <2)
+        amountOfSwaps--;
+    
+    std::sort(std::begin(bestFive)+amountOfSwaps, std::end(bestFive), [](const Card *a, const Card *b) {return *a > *b;});
+    
+    while (bestFive.size()>5)
+        bestFive.pop_back();
+}
+
+void Hand::setBestStraight(){
+    bestFive = hand;
+    for (int i = 0; i<5; i++) {
+        if (bestFive[i]->value != straight.lastValue) {
+            for (int j =i+1; j<7; j++) {
+                if (bestFive[j]->value == straight.lastValue)
+                    std::swap(bestFive[j], bestFive[i]);
+            }
+        }
+        straight.lastValue--;
+    }
+    
+    while (bestFive.size()>5)
+        bestFive.pop_back();
+}
+void Hand::setBestFlush(){
+    bestFive = hand;
+    
+    eColor flushColor;
+    if (color.amountOfClubs == 5)
+        flushColor = club;
+    else if (color.amountOfHearts == 5)
+        flushColor = heart;
+    else if (color.amountOfDiamonds == 5)
+        flushColor = diamond;
+    else flushColor = spade;
+    
+    for (int i = 0; i<5; i++) {
+        if (bestFive[i]->color != flushColor) {
+            for (int j =i+1; j<7; j++) {
+                if (bestFive[j]->color == flushColor)
+                    std::swap(bestFive[j], bestFive[i]);
+            }
+        }
+    }
+    
+    while (bestFive.size()>5)
+        bestFive.pop_back();
+    
+    std::sort(std::begin(bestFive), std::end(bestFive), [](const Card *a, const Card *b) {return *a > *b;});
+}
+
+
+
+bool Hand::operator>(const Hand &hand) const{
+    if (this->value != hand.value) {
+        for (int i=0; i<bestFive.size(); i++) {
+            if (bestFive[i] < hand.bestFive[i])
+                return false;
+            if (bestFive[i] > hand.bestFive[i])
+                return true;
+        }
+        return false;
+    }
+    else return this->value > hand.value;
+}
+
+bool Hand::operator<(const Hand &hand) const{
+    return this->value < hand.value;
 }
 
