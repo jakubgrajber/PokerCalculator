@@ -19,7 +19,7 @@ private:
 public:
     friend class Table;
     Player(){amountOfCards =0;};
-    void print();
+    
     ~Player(){};
 };
 

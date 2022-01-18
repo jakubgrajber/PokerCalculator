@@ -47,6 +47,7 @@ public:
     void playersUpdate();
     void message();
     void stageChange();
+    void setWinner();
     
     void print();
     ~Table();

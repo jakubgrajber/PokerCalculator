@@ -21,6 +21,7 @@ private:
     int value;
     eColor color;
 public:
+    friend class Hand;
     Card(){};
     Card(int value, eColor color);
 //  Card(const Card &a);

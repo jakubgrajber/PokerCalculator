@@ -16,6 +16,7 @@ namespace cmn {
 enum Stage {pocket, flop, turn, river, end};
 enum Mode {manual, random};
 void stageToDomain(Stage stage, int &start, int &stop);
+void insertionSort(int arr[][2], int size, int comparingPosition);
 }
 
 #endif /* Common_hpp */
