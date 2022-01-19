@@ -22,6 +22,7 @@ private:
     eColor color;
 public:
     friend class Hand;
+    friend class Table;
     Card(){};
     Card(int value, eColor color);
 //  Card(const Card &a);
@@ -36,6 +37,7 @@ public:
     //Card& operator=(Card & card);
     Card& operator=(std::string input);
     bool operator==(const Card &a) const;
+    bool operator!=(const Card &a) const;
     bool operator>(const Card &a) const;
     bool operator<(const Card &a) const;
     

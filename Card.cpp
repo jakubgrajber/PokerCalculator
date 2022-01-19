@@ -105,6 +105,10 @@ bool Card::operator==(const Card &a) const {
     return ((this->value == a.value) && (this->color == a.color));
 }
 
+bool Card::operator!=(const Card &a) const{
+    return !this->operator==(a);
+}
+
 bool Card::operator<(const Card &a) const {
     return (this->value < a.value);
 }

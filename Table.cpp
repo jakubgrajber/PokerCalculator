@@ -238,26 +238,57 @@ for (int i =0; i<amountOfPlayers; i++) {
 
 void Table::setWinner(){
     int winner_index = 0;
+    bool tie = false;
     
     for (int i=1;i<amountOfPlayers; i++) {
-        if (player[i].hand.value > player[winner_index].hand.value)
+        if (player[i].hand.value > player[winner_index].hand.value){
             winner_index = i;
+            tie = false;
+        }
         else if (player[i].hand.value == player[winner_index].hand.value) {
-            for (int j =0; j<player[i].hand.bestFive.size(); j++) {
-                if (player[i].hand.bestFive[j] > player[winner_index].hand.bestFive[j]) {
+            for (int j =0; j<5; j++) {
+                if (*player[i].hand.bestFive[j] > *player[winner_index].hand.bestFive[j]) {
                     winner_index = i;
+                    tie = false;
                     break;
                 }
-                if (player[i].hand.bestFive[j] < player[winner_index].hand.bestFive[j])
+                if (*player[i].hand.bestFive[j] < *player[winner_index].hand.bestFive[j]){
                     break;
-                if (i==player[i].hand.bestFive.size()-1) {
-                    //takie same
                 }
+                if (j==4)
+                    tie = true;
             }
         }
         
     }
-    std::cout << "\nPlayer #" << winner_index+1 << " is the winner"<< std::endl;
+    if (!tie)
+        std::cout << "\nPlayer #" << winner_index+1 << " is the winner"<< std::endl;
+    else
+        setTies(winner_index);
+}
+
+void Table::setTies(int firstIndex){
+    vector<int> tiedIndex;
+    tiedIndex.push_back(firstIndex);
+    
+    for (int i =firstIndex+1; i<amountOfPlayers; i++) {
+        if (player[i].hand.value == player[firstIndex].hand.value)
+            for (int j =0; j<5; j++){
+                if (player[i].hand.bestFive[j]->value != player[firstIndex].hand.bestFive[j]->value) {
+                    break;
+                }
+                if (j==4)
+                    tiedIndex.push_back(i);
+            }
+    }
+    std::cout<< "Players with numbers ";
+    for(int i: tiedIndex){
+        std::cout<< i+1;
+        if (i != *(end(tiedIndex)-1))
+            std::cout<< ", ";
+    }
+    std::cout << " tied." << std::endl;
+    
 }
 
 Table::~Table(){
