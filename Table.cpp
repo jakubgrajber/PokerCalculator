@@ -243,12 +243,12 @@ void Table::setWinner(){
         if (player[i].hand.value > player[winner_index].hand.value)
             winner_index = i;
         else if (player[i].hand.value == player[winner_index].hand.value) {
-            for (int i =0; i<player[i].hand.bestFive.size(); i++) {
-                if (player[i].hand.bestFive[i] > player[winner_index].hand.bestFive[i]) {
+            for (int j =0; j<player[i].hand.bestFive.size(); j++) {
+                if (player[i].hand.bestFive[j] > player[winner_index].hand.bestFive[j]) {
                     winner_index = i;
                     break;
                 }
-                if (player[i].hand.bestFive[i] < player[winner_index].hand.bestFive[i])
+                if (player[i].hand.bestFive[j] < player[winner_index].hand.bestFive[j])
                     break;
                 if (i==player[i].hand.bestFive.size()-1) {
                     //takie same
@@ -257,7 +257,7 @@ void Table::setWinner(){
         }
         
     }
-    std::cout << "\nWinner is player nr " << winner_index+1 << std::endl;
+    std::cout << "\nPlayer #" << winner_index+1 << " is the winner"<< std::endl;
 }
 
 Table::~Table(){

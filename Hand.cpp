@@ -75,9 +75,6 @@ void Hand::checkRepeated(int start, int stop){
 
     cmn::insertionSort(tempRepeatedCards, 13, 0);
     
-    if(tempRepeatedCards[0][0]+tempRepeatedCards[1][0]+tempRepeatedCards[2][0] == 6)
-        cmn::insertionSort(tempRepeatedCards, 3, 1);
-    
     for (int i =0; i<2; i++)
         for (int j=0; j<2; j++)
             sameCards.value[i][j] = tempRepeatedCards[i][j];
@@ -207,6 +204,26 @@ void Hand::setBestHighCard(){
 
 void Hand::setBestSameCards(){
     bestFive = hand;
+
+    int tempRepeatedCards[13][2];
+    for (int i =0; i<13; i++)
+        for (int j = 0; j<2; j++)
+            tempRepeatedCards[i][j] = repeatedCards[i][j];
+
+    cmn::insertionSort(tempRepeatedCards, 13, 0);
+    
+    if(tempRepeatedCards[0][0] == 2 && tempRepeatedCards[1][0] == 2 && tempRepeatedCards[2][0] == 2)
+        cmn::insertionSort(tempRepeatedCards, 3, 1);
+
+    else if(tempRepeatedCards[0][0]+tempRepeatedCards[1][0]+tempRepeatedCards[2][0] == 7){
+        cmn::insertionSort(tempRepeatedCards, 3, 1);
+        cmn::insertionSort(tempRepeatedCards, 3, 0);
+    }
+        
+    
+    for (int i =0; i<2; i++)
+        for (int j=0; j<2; j++)
+            sameCards.value[i][j] = tempRepeatedCards[i][j];
     
     if (sameCards.value[0][0] == sameCards.value[1][0] && sameCards.value[0][1]<sameCards.value[1][1]) {
         std::swap(sameCards.value[0][0], sameCards.value[1][0]);

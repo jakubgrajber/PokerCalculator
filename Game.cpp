@@ -24,6 +24,8 @@ void Game::randomMode(){
         table->cardsAssignment();
         table->playersUpdate();
         this->draw();
+        if (table->stage == cmn::river)
+            table->setWinner();
         table->stageChange();
     }
     waitForUser();
@@ -37,7 +39,8 @@ void Game::manualMode(){
         table->cardsAssignment();
         table->playersUpdate();
         this->draw();
-        table->setWinner();
+        if (table->stage == cmn::river)
+            table->setWinner();
         table->stageChange();
     }
 }
