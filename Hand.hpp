@@ -19,12 +19,12 @@ enum eHandValue {highcard, pair, twopairs, set, straight, flush, fullhouse, quad
 
 struct SameCards{
     handValue::eHandValue handValue;
-    int value[2][2] {0};
+    int value[2][2];
 };
 
 struct Straight{
     bool isComplete;
-    bool cardFlag[14] {false};
+    bool cardFlag[14];
     int lastValue;
 };
 

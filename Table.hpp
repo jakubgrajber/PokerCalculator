@@ -37,6 +37,7 @@ private:
     void messageManualMode();
     std::string enterCardName();
     void uniqueCardInput();
+    void setTies(int firstIndex);
 public:
     friend class Game;
     

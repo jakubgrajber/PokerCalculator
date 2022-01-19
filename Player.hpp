@@ -16,6 +16,8 @@ private:
     Hand hand;
     int amountOfCards;
     double winningPercentage;
+    int wins;
+    int ties;
 public:
     friend class Table;
     Player(){amountOfCards =0;};
