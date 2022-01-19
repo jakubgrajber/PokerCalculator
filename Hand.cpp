@@ -17,6 +17,15 @@ Hand::Hand(){
         repeatedCards[i][0] = 0;
     for (int i = 0; i<13; i++)
         repeatedCards[i][1] = i+2;
+    
+    for (int i=0; i<2; i++) {
+        for (int j=0; j<2; j++) {
+            sameCards.value[i][j] = 0;
+        }
+    }
+    for (int i =0; i<14; i++) {
+        straight.cardFlag[i] = false;
+    }
 }
 
 void Hand::getCards(const vector<Card> &card){
@@ -220,7 +229,6 @@ void Hand::setBestSameCards(){
         cmn::insertionSort(tempRepeatedCards, 3, 0);
     }
         
-    
     for (int i =0; i<2; i++)
         for (int j=0; j<2; j++)
             sameCards.value[i][j] = tempRepeatedCards[i][j];
