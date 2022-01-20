@@ -253,7 +253,6 @@ void Table::setWinner(){
                     break;
                 }
                 if (*player[i].hand.bestFive[j] < *player[winner_index].hand.bestFive[j]){
-                    tie = false;
                     break;
                 }
                 if (j==4)
