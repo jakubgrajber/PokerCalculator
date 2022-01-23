@@ -14,13 +14,14 @@
 class Player{
 private:
     Hand hand;
-    int amountOfCards;
     double winningPercentage;
+    double tiePercentage;
     int wins;
     int ties;
 public:
     friend class Table;
-    Player(){amountOfCards =0;};
+    friend class Variations;
+    Player();
     
     ~Player(){};
 };

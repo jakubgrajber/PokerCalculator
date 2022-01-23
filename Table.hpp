@@ -20,16 +20,16 @@
 
 
 class Table{
-private:
-    Player *player;
-    Deck deck;
-    std::vector <const Card*> communityCards;
-    
-    cmn::Mode mode;
-    cmn::Stage stage;
-    
+protected:
     int amountOfPlayers;
     int deckPosition;
+    Deck deck;
+    cmn::Mode mode;
+    cmn::Stage stage;
+    std::vector <const Card*> communityCards;
+    Player *player;
+    std::vector <Card> unusedCards;
+private:
     
     void pocketAssignment();
     void pocketCardsInput();
@@ -40,15 +40,18 @@ private:
     void setTies(int firstIndex);
 public:
     friend class Game;
-    
+    friend class Variations;
     Table(int amountOfPlayers);
+    Table(int amountOfPlayers, Deck &deck, int positionInDeck);
     
     void cardsInput();
-    void cardsAssignment();
-    void playersUpdate();
+    virtual void cardsAssignment();
+    virtual void playersUpdate();
     void message();
     void stageChange();
-    void setWinner();
+    void stageChange(cmn::Stage &stage);
+    virtual void setWinner();
+    void setUnusedDeck();
     
     void print();
     ~Table();

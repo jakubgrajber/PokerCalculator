@@ -7,6 +7,13 @@
 
 #include "Player.hpp"
 
+Player::Player(){
+    winningPercentage = 0.0;
+    tiePercentage= 0.0;
+    wins = 0;
+    ties = 0;
+
+}
 
 
 

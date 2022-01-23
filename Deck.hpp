@@ -22,7 +22,10 @@ private:
     Card card[DECK_SIZE];
 public:
     friend class Table;
+    friend class Variations;
     Deck();
+    
+    void shuffleDeck();
     
     friend eColor intToColor(int value);
     const Card & operator[](int index) const;

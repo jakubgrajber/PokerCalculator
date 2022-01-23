@@ -36,6 +36,9 @@ Deck::Deck(){
             this->card[numberOfCardsInDeck++] = Card(i, intToColor(suit));
         }
     }
+}
+
+void Deck::shuffleDeck(){
     std::shuffle(&card[0], &card[52], std::mt19937(distrib(gen)));
 }
 
