@@ -66,17 +66,19 @@ void Card::printValue() const{
 void Card::printColor() const{
     switch (color)
     {
-        case 0:
+        case 1:
             std::cout << "♠︎|";
             break;
-        case 1:
+        case 2:
             std::cout << "♣︎|";
             break;
-        case 2:
+        case 3:
             std::cout << "♦︎|";
             break;
-        case 3:
+        case 4:
             std::cout << "♥︎|";
+            break;
+        default:
             break;
     }
 }
@@ -207,6 +209,7 @@ std::string colorToChar(eColor color){
             return "♣︎";
             break;
         default:
+            return " ";
             break;
     }
 }

@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include "Table.hpp"
+#include "TableVariations.hpp"
 
 class Game{
 private:

@@ -7,15 +7,26 @@
 
 #include "Table.hpp"
 
-
 Table::Table(int amountOfPlayers){
     if(amountOfPlayers>10)
         amountOfPlayers =10;
     
+    deck.shuffleDeck();
     player = new Player[amountOfPlayers];
     this->amountOfPlayers = amountOfPlayers;
     deckPosition = 0;
     stage = cmn::pocket;
+    
+}
+
+Table::Table(int amountOfPlayers, Deck &deck, int positionInDeck){
+    deckPosition = 0;
+    stage = cmn::pocket;
+    this->amountOfPlayers = amountOfPlayers;
+    player = new Player[amountOfPlayers];
+    this->deckPosition = positionInDeck;
+    for (int i=0; i<DECK_SIZE; i++)
+        this->deck.card[i] = deck[i];
 }
 
 void Table::cardsInput(){
@@ -114,7 +125,7 @@ void Table::cardsAssignment(){
         default:
             break;
     }
-    deckPosition++;
+    //deckPosition++;
     for (int i=0;i<limit ; i++) {
         communityCards.push_back(&deck[deckPosition]);
         for (int i=0; i<amountOfPlayers; i++)
@@ -190,6 +201,25 @@ void Table::messageManualMode(){
 }
 
 void Table::stageChange(){
+    switch (stage) {
+        case cmn::pocket:
+            stage=cmn::flop;
+            break;
+        case cmn::flop:
+            stage=cmn::turn;
+            break;
+        case cmn::turn:
+            stage=cmn::river;
+            break;
+        case cmn::river:
+            stage=cmn::end;
+            break;
+        default:
+            break;
+    }
+}
+
+void Table::stageChange(cmn::Stage &stage){
     switch (stage) {
         case cmn::pocket:
             stage=cmn::flop;
@@ -290,6 +320,36 @@ void Table::setTies(int firstIndex){
     std::cout << " tied." << std::endl;
     
 }
+
+void Table::setUnusedDeck(){
+    Deck tempDeck;
+    if (stage == cmn::pocket){
+        for (int i=0; i<DECK_SIZE; i++) {
+            for (int j =0; j<deckPosition; j++) {
+                if (tempDeck[i] == deck.card[j])
+                    break;
+                if (j==deckPosition-1)
+                    unusedCards.push_back(tempDeck[i]);
+            }
+        }
+    }
+    else if(stage == cmn::flop){
+        for(int i = deckPosition-3; i<deckPosition;i++){
+            for (int j =0; j<unusedCards.size(); j++) {
+                if (unusedCards[j] == deck.card[i]){
+                    unusedCards.erase(unusedCards.begin()+j);
+                }
+            }
+        }
+    }
+    else if (stage==cmn::turn){
+        for (int i =0; i<unusedCards.size(); i++) {
+            if (unusedCards[i] == deck.card[deckPosition-1])
+                unusedCards.erase(unusedCards.begin()+i);
+        }
+    }
+  }
+
 
 Table::~Table(){
     delete [] player;

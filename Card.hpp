@@ -14,7 +14,7 @@
 
 using std::ostream;
 
-enum eColor {spade = 0, club, diamond, heart};
+enum eColor {none, spade, club, diamond, heart};
 
 class Card{
 private:

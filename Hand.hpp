@@ -31,6 +31,7 @@ struct Straight{
 struct Color{
     bool isComplete;
     int amountOfHearts, amountOfDiamonds, amountOfClubs, amountOfSpades;
+    eColor color;
 };
 
 using std::vector;
@@ -44,6 +45,7 @@ private:
     Straight straight;
     Color color;
     SameCards sameCards;
+    bool straightFlush;
     int repeatedCards[13][2];
 
     
@@ -54,20 +56,26 @@ private:
     void setBestSameCards();
     void setBestStraight();
     void setBestFlush();
+    void setBestStraightFlush();
 public:
     Hand();
     friend class Table;
+    friend class Variations;
     
     void setValue();
     void getCards(const vector<Card> &card);
     void getCard(const Card & card);
+    void popCard();
     void setBestFive();
     
     void updateQualifiers(cmn::Stage stage);
+    void updateQualifiers();
+    void resetQualifiers();
     
     void checkRepeated(int start, int stop);
     void checkColor(int start, int stop);
     void checkStraight(int start, int stop);
+    void checkStraightFlush();
     void print();
     void printValue();
     void printBestFive();

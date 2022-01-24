@@ -19,13 +19,25 @@ Game::Game(Table *table){
 void Game::randomMode(){
     table->mode = cmn::random;
     while (table->stage != cmn::end) {
+        Variations variations(this->table->amountOfPlayers, this->table->deck, this->table->deckPosition);
+        variations.mode = cmn::random;
+        
         table->message();
         waitForUser();
+        
         table->cardsAssignment();
         table->playersUpdate();
+        
+        table->setUnusedDeck();
+        
+        variations.combine(table->unusedCards, this->table->stage);
+        
         this->draw();
+        //variations.printUnusedDeck();
+        
         if (table->stage == cmn::river)
             table->setWinner();
+        
         table->stageChange();
     }
     waitForUser();
