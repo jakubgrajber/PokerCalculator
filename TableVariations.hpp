@@ -19,6 +19,8 @@ private:
     std::vector<int> positionInDeck;
     int sizeOfVariations;
     bool hasMoreVariations;
+    void setTies(int firstIndex);
+    int amountOfVariations;
 public:
     Variations(int amountOfPlayers, Deck &deck, int positionInDeck);
     
@@ -36,6 +38,8 @@ public:
     void setWinner();
     void playersUpdate();
     void playersReset();
+    void setWinningPercentage();
+    int getAmountOfVariations(){return amountOfVariations;}
     
 };
 

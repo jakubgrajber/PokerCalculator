@@ -15,7 +15,7 @@
 #include "Common.hpp"
 #include "exc_inputCards.h"
 #include <string>
-
+#include <iomanip>
 
 
 
@@ -37,7 +37,7 @@ private:
     void messageManualMode();
     std::string enterCardName();
     void uniqueCardInput();
-    void setTies(int firstIndex);
+    virtual void setTies(int firstIndex);
 public:
     friend class Game;
     friend class Variations;
@@ -52,8 +52,8 @@ public:
     void stageChange(cmn::Stage &stage);
     virtual void setWinner();
     void setUnusedDeck();
-    
     void print();
+    void getWinningPercentage(Player players[]);
     ~Table();
 };
 

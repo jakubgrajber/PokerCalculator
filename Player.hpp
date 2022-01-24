@@ -10,6 +10,8 @@
 
 #include "Hand.hpp"
 #include <vector>
+#include <iostream>
+#include <iomanip>
 
 class Player{
 private:
@@ -21,6 +23,13 @@ private:
 public:
     friend class Table;
     friend class Variations;
+    
+    void setPercentage(int amountOfVariations);
+    void printPercentage();
+    void resetValues();
+    void addWin() {wins++;};
+    void addTie() {ties++;};
+
     Player();
     
     ~Player(){};

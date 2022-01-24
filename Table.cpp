@@ -244,8 +244,10 @@ for (int i =0; i<amountOfPlayers; i++) {
     std::cout << "Player " << i+1 << ": ";
     if (stage == cmn::river)
         player[i].hand.printBestFive();
-    else
+    else{
         player[i].hand.print();
+        player[i].printPercentage();
+    }
     std::cout << std::endl;
     }
     
@@ -349,6 +351,14 @@ void Table::setUnusedDeck(){
         }
     }
   }
+
+void Table::getWinningPercentage(Player tempPlayer[]){
+    for (int i =0; i<amountOfPlayers; i++) {
+        player[i].winningPercentage = tempPlayer[i].winningPercentage;
+        player[i].tiePercentage = tempPlayer[i].tiePercentage;
+    }
+}
+
 
 
 Table::~Table(){

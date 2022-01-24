@@ -32,6 +32,8 @@ void Game::randomMode(){
         
         variations.combine(table->unusedCards, this->table->stage);
         
+        table->getWinningPercentage(variations.player);
+        
         this->draw();
         //variations.printUnusedDeck();
         
@@ -46,10 +48,22 @@ void Game::randomMode(){
 void Game::manualMode(){
     table->mode = cmn::manual;
     while (table->stage != cmn::end) {
+        
         table->message();
         table->cardsInput();
+        
         table->cardsAssignment();
         table->playersUpdate();
+        
+        Variations variations(this->table->amountOfPlayers, this->table->deck, this->table->deckPosition);
+        variations.mode = cmn::manual;
+        
+        table->setUnusedDeck();
+        
+        variations.combine(table->unusedCards, this->table->stage);
+        
+        table->getWinningPercentage(variations.player);
+        
         this->draw();
         if (table->stage == cmn::river)
             table->setWinner();
