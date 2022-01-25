@@ -18,7 +18,6 @@ enum eHandValue {highcard, pair, twopairs, set, straight, flush, fullhouse, quad
 }
 
 struct SameCards{
-    handValue::eHandValue handValue;
     int value[2][2];
 };
 
@@ -41,14 +40,12 @@ private:
     vector<const Card*> hand;
     vector<const Card*> bestFive;
     
-    //qualifiers
     Straight straight;
     Color color;
     SameCards sameCards;
     bool straightFlush;
     int repeatedCards[13][2];
 
-    
     handValue::eHandValue value;
     int capacity;
     
@@ -63,9 +60,6 @@ public:
     friend class Variations;
     
     void setValue();
-    void getCards(const vector<Card> &card);
-    void getCard(const Card & card);
-    void popCard();
     void setBestFive();
     
     void updateQualifiers(cmn::Stage stage);
@@ -76,11 +70,15 @@ public:
     void checkColor(int start, int stop);
     void checkStraight(int start, int stop);
     void checkStraightFlush();
+    
+    void getCards(const vector<Card> &card);
+    void getCard(const Card & card);
+    void popCard();
+    
     void print();
     void printValue();
     void printBestFive();
     
-    bool operator==(const Hand &hand) const;
     bool operator>(const Hand &hand) const;
     bool operator<(const Hand &hand) const;
     ~Hand(){};

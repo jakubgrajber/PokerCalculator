@@ -25,16 +25,11 @@ public:
     friend class Table;
     Card(){};
     Card(int value, eColor color);
-//  Card(const Card &a);
     
     void print() const;
     void printValue() const;
     void printColor() const;
-    
-    int getValue() const{return value;}
-    eColor getColor() const{return color;}
-    
-    //Card& operator=(Card & card);
+
     Card& operator=(std::string input);
     bool operator==(const Card &a) const;
     bool operator!=(const Card &a) const;
@@ -42,6 +37,9 @@ public:
     bool operator<(const Card &a) const;
     
     friend ostream & operator<<(ostream &os, const Card &a);
+    
+    int getValue() const{return value;}
+    eColor getColor() const{return color;}
     
     ~Card(){};
 };

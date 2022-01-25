@@ -146,128 +146,6 @@ void Table::playersUpdate(){
         player[i].hand.updateQualifiers(this->stage);
 }
 
-void Table::message(){
-    switch (this->mode) {
-        case cmn::random:
-            messageRandomMode();
-            break;
-        case cmn::manual:
-            messageManualMode();
-            break;
-        default:
-            break;
-    }
-}
-
-void Table::messageRandomMode(){
-    switch (this->stage) {
-        case cmn::pocket:
-            std::cout << "Show the pocket cards. ";
-            break;
-        case cmn::flop:
-            std::cout << "Show the flop. ";
-            break;
-        case cmn::turn:
-            std::cout << "Show the turn. ";
-            break;
-        case cmn::river:
-            std::cout << "Show the river. ";
-            break;
-        default:
-            break;
-    }
-}
-
-void Table::messageManualMode(){
-    switch (this->stage) {
-        case cmn::pocket:
-            std::cout << "\nA K Q J T 9 8 7 6 5 4 3 2" << std::endl;
-            std::cout << "♠︎ - S, ♣︎ - C, ♦︎ - D, ♥︎ - H" << std::endl;
-            std::cout << "\ne.g. for |7♦︎| enter 7D or 7d" << std::endl;
-            std::cout << "Enter pocket cards for each player. " << std::endl;
-            break;
-        case cmn::flop:
-            std::cout << "\nEnter flop cards into the game. " << std::endl;
-            break;
-        case cmn::turn:
-            std::cout << "\nSelect turn card.  " << std::endl;
-            break;
-        case cmn::river:
-            std::cout << "\nSelect river card.  " << std::endl;
-            break;
-        default:
-            break;
-    }
-}
-
-void Table::stageChange(){
-    switch (stage) {
-        case cmn::pocket:
-            stage=cmn::flop;
-            break;
-        case cmn::flop:
-            stage=cmn::turn;
-            break;
-        case cmn::turn:
-            stage=cmn::river;
-            break;
-        case cmn::river:
-            stage=cmn::end;
-            break;
-        default:
-            break;
-    }
-}
-
-void Table::stageChange(cmn::Stage &stage){
-    switch (stage) {
-        case cmn::pocket:
-            stage=cmn::flop;
-            break;
-        case cmn::flop:
-            stage=cmn::turn;
-            break;
-        case cmn::turn:
-            stage=cmn::river;
-            break;
-        case cmn::river:
-            stage=cmn::end;
-            break;
-        default:
-            break;
-    }
-}
-
-void Table::print(){
-    std::cout << std::endl;
-for (int i =0; i<amountOfPlayers; i++) {
-    std::cout << "Player " << i+1 << ": ";
-    if (stage == cmn::river)
-        player[i].hand.printBestFive();
-    else{
-        player[i].hand.print();
-        player[i].printPercentage();
-    }
-    std::cout << std::endl;
-    }
-    
-    if (communityCards.size()>0) {
-        std::cout << "\nFLOP: ";
-        for (int i=0; i<3; i++)
-            communityCards[i]->print();
-    }
-    if (communityCards.size()>3) {
-        std::cout << "  TURN: ";
-        communityCards[3]->print();
-    }
-    if (communityCards.size()>4) {
-        std::cout << "  RIVER: ";
-        communityCards[4]->print();
-    }
-    if (communityCards.size()>0)
-        std::cout<<std::endl;
-}
-
 void Table::setWinner(){
     int winner_index = 0;
     bool tie = false;
@@ -323,6 +201,13 @@ void Table::setTies(int firstIndex){
     
 }
 
+void Table::getWinningPercentage(Player tempPlayer[]){
+    for (int i =0; i<amountOfPlayers; i++) {
+        player[i].winningPercentage = tempPlayer[i].winningPercentage;
+        player[i].tiePercentage = tempPlayer[i].tiePercentage;
+    }
+}
+
 void Table::setUnusedDeck(){
     Deck tempDeck;
     if (stage == cmn::pocket){
@@ -352,14 +237,127 @@ void Table::setUnusedDeck(){
     }
   }
 
-void Table::getWinningPercentage(Player tempPlayer[]){
-    for (int i =0; i<amountOfPlayers; i++) {
-        player[i].winningPercentage = tempPlayer[i].winningPercentage;
-        player[i].tiePercentage = tempPlayer[i].tiePercentage;
+void Table::stageChange(){
+    switch (stage) {
+        case cmn::pocket:
+            stage=cmn::flop;
+            break;
+        case cmn::flop:
+            stage=cmn::turn;
+            break;
+        case cmn::turn:
+            stage=cmn::river;
+            break;
+        case cmn::river:
+            stage=cmn::end;
+            break;
+        default:
+            break;
     }
 }
 
+void Table::stageChange(cmn::Stage &stage){
+    switch (stage) {
+        case cmn::pocket:
+            stage=cmn::flop;
+            break;
+        case cmn::flop:
+            stage=cmn::turn;
+            break;
+        case cmn::turn:
+            stage=cmn::river;
+            break;
+        case cmn::river:
+            stage=cmn::end;
+            break;
+        default:
+            break;
+    }
+}
 
+void Table::message(){
+    switch (this->mode) {
+        case cmn::random:
+            messageRandomMode();
+            break;
+        case cmn::manual:
+            messageManualMode();
+            break;
+        default:
+            break;
+    }
+}
+
+void Table::messageRandomMode(){
+    switch (this->stage) {
+        case cmn::pocket:
+            std::cout << "Show the pocket cards. ";
+            break;
+        case cmn::flop:
+            std::cout << "Show the flop. ";
+            break;
+        case cmn::turn:
+            std::cout << "Show the turn. ";
+            break;
+        case cmn::river:
+            std::cout << "Show the river. ";
+            break;
+        default:
+            break;
+    }
+}
+
+void Table::messageManualMode(){
+    switch (this->stage) {
+        case cmn::pocket:
+            std::cout << "\nA K Q J T 9 8 7 6 5 4 3 2" << std::endl;
+            std::cout << "♠︎ - S, ♣︎ - C, ♦︎ - D, ♥︎ - H" << std::endl;
+            std::cout << "\ne.g. for |7♦︎| enter 7D or 7d" << std::endl;
+            std::cout << "Enter pocket cards for each player. " << std::endl;
+            break;
+        case cmn::flop:
+            std::cout << "\nEnter flop cards into the game. " << std::endl;
+            break;
+        case cmn::turn:
+            std::cout << "\nSelect turn card.  " << std::endl;
+            break;
+        case cmn::river:
+            std::cout << "\nSelect river card.  " << std::endl;
+            break;
+        default:
+            break;
+    }
+}
+
+void Table::print(){
+    std::cout << std::endl;
+for (int i =0; i<amountOfPlayers; i++) {
+    std::cout << "Player " << i+1 << ": ";
+    if (stage == cmn::river)
+        player[i].hand.printBestFive();
+    else{
+        player[i].hand.print();
+        player[i].printPercentage();
+    }
+    std::cout << std::endl;
+    }
+    
+    if (communityCards.size()>0) {
+        std::cout << "\nFLOP: ";
+        for (int i=0; i<3; i++)
+            communityCards[i]->print();
+    }
+    if (communityCards.size()>3) {
+        std::cout << "  TURN: ";
+        communityCards[3]->print();
+    }
+    if (communityCards.size()>4) {
+        std::cout << "  RIVER: ";
+        communityCards[4]->print();
+    }
+    if (communityCards.size()>0)
+        std::cout<<std::endl;
+}
 
 Table::~Table(){
     delete [] player;

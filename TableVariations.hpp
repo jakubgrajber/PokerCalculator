@@ -17,30 +17,31 @@ class Variations : public Table{
 private:
     std::vector<Card *> variation;
     std::vector<int> positionInDeck;
+    
     int sizeOfVariations;
     bool hasMoreVariations;
-    void setTies(int firstIndex);
     int amountOfVariations;
+    
+    void setTies(int firstIndex);
 public:
     Variations(int amountOfPlayers, Deck &deck, int positionInDeck);
     
-    
-    void printUnusedDeck();
+    void combine(std::vector <Card> &unusedCards, cmn::Stage stage);
+    void setFamily(std::vector <Card> &unusedCards);
+    int whichPositionChange(std::vector <Card> &unusedCards);
     
     void cardsAssignment(cmn::Stage stage);
     void cardsAssignment(int limit);
     void assignVariationCards();
     void clearVariationCards();
-    void combine(std::vector <Card> &unusedCards, cmn::Stage stage);
-    void setFamily(std::vector <Card> &unusedCards);
-    void showVariant();
-    int whichPositionChange(std::vector <Card> &unusedCards);
     void setWinner();
     void playersUpdate();
     void playersReset();
     void setWinningPercentage();
-    int getAmountOfVariations(){return amountOfVariations;}
+    void printUnusedDeck();
+    void showVariant();
     
+    int getAmountOfVariations(){return amountOfVariations;}
 };
 
 

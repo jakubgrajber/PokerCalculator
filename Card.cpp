@@ -9,7 +9,6 @@
 
 eColor charToColor(char input);
 char charToValue(char input);
-
 char valueToChar(int value);
 std::string colorToChar(eColor input);
 
@@ -17,11 +16,6 @@ Card::Card(int value, eColor color){
     this->value = value;
     this->color = color;
 }
-
-//Card::Card(const Card &a){
-//    this->value = a.value;
-//    this->color = a.color;
-//}
 
 void Card::print() const{
     this->printValue();
@@ -83,13 +77,6 @@ void Card::printColor() const{
     }
 }
 
-//Card& Card::operator=(Card &card){
-//    this->value = card.value;
-//    this->color = card.color;
-//
-//    return *this;
-//}
-
 Card& Card::operator=(std::string input){
     if (isdigit(input[0])) {
         value = input[0] - '0';
@@ -111,12 +98,12 @@ bool Card::operator!=(const Card &a) const{
     return !this->operator==(a);
 }
 
-bool Card::operator<(const Card &a) const {
-    return (this->value < a.value);
-}
-
 bool Card::operator>(const Card &a) const {
     return (this->value > a.value);
+}
+
+bool Card::operator<(const Card &a) const {
+    return (this->value < a.value);
 }
 
 ostream & operator<<(ostream &os, const Card &card){

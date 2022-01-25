@@ -30,19 +30,47 @@ Hand::Hand(){
     }
 }
 
-void Hand::getCards(const vector<Card> &card){
-    for (auto i = card.begin(); i!=card.end(); i++) {
-        this->hand.push_back(&*i);
-        capacity++;
+void Hand::setValue(){
+    if (straightFlush)
+        value = handValue::straightflush;
+    else if (sameCards.value[0][0] == 4)
+        value = handValue::quads;
+    else if (sameCards.value[0][0] == 3 && sameCards.value[1][0] >= 2)
+        value = handValue::fullhouse;
+    else if (color.isComplete)
+        value = handValue::flush;
+    else if (straight.isComplete)
+        value = handValue::straight;
+    else if (sameCards.value[0][0] == 3)
+        value = handValue::set;
+    else if (sameCards.value[0][0] == 2 && sameCards.value[1][0] == 2)
+        value = handValue::twopairs;
+    else if (sameCards.value[0][0] == 2)
+        value = handValue::pair;
+    else
+        value = handValue::highcard;
+}
+
+void Hand::setBestFive(){
+    switch (value) {
+        case handValue::highcard:
+            setBestHighCard();
+            break;
+        case handValue::pair: case handValue::twopairs: case handValue::set: case handValue::fullhouse: case handValue::quads:
+            setBestSameCards();
+            break;
+        case handValue::straight:
+            setBestStraight();
+            break;
+        case handValue::flush:
+            setBestFlush();
+            break;
+        case handValue::straightflush:
+            setBestStraightFlush();
+            break;
+        default:
+            break;
     }
-}
-void Hand::getCard(const Card &card){
-    this->hand.push_back(&card);
-    capacity++;
-}
-void Hand::popCard(){
-    this->hand.pop_back();
-    capacity--;
 }
 
 void Hand::updateQualifiers(cmn::Stage stage){
@@ -57,6 +85,7 @@ void Hand::updateQualifiers(cmn::Stage stage){
     if (stage == cmn::river)
         setBestFive();
 }
+
 void Hand::updateQualifiers(){
     checkRepeated(0, 6);
     checkColor(0, 6);
@@ -88,28 +117,6 @@ void Hand::resetQualifiers(){
     for (int i =0; i<14; i++) {
         straight.cardFlag[i] = false;
     }
-}
-
-void Hand::setValue(){
-    if (straightFlush)
-        value = handValue::straightflush;
-    else if (sameCards.value[0][0] == 4)
-        value = handValue::quads;
-    else if (sameCards.value[0][0] == 3 && sameCards.value[1][0] >= 2)
-        value = handValue::fullhouse;
-    else if (color.isComplete)
-        value = handValue::flush;
-    else if (straight.isComplete)
-        value = handValue::straight;
-    else if (sameCards.value[0][0] == 3)
-        value = handValue::set;
-    else if (sameCards.value[0][0] == 2 && sameCards.value[1][0] == 2)
-        value = handValue::twopairs;
-    else if (sameCards.value[0][0] == 2)
-        value = handValue::pair;
-    else
-        value = handValue::highcard;
-    
 }
 
 void Hand::checkRepeated(int start, int stop){
@@ -231,7 +238,22 @@ void Hand::checkStraightFlush(){
 
 }
 
+void Hand::getCards(const vector<Card> &card){
+    for (auto i = card.begin(); i!=card.end(); i++) {
+        this->hand.push_back(&*i);
+        capacity++;
+    }
+}
 
+void Hand::getCard(const Card &card){
+    this->hand.push_back(&card);
+    capacity++;
+}
+
+void Hand::popCard(){
+    this->hand.pop_back();
+    capacity--;
+}
 
 void Hand::print(){
     for (int i = 0; i<2; i++)
@@ -279,26 +301,21 @@ void Hand::printBestFive(){
     printValue();
 }
 
-void Hand::setBestFive(){
-    switch (value) {
-        case handValue::highcard:
-            setBestHighCard();
-            break;
-        case handValue::pair: case handValue::twopairs: case handValue::set: case handValue::fullhouse: case handValue::quads:
-            setBestSameCards();
-            break;
-        case handValue::straight:
-            setBestStraight();
-            break;
-        case handValue::flush:
-            setBestFlush();
-            break;
-        case handValue::straightflush:
-            setBestStraightFlush();
-            break;
-        default:
-            break;
+bool Hand::operator>(const Hand &hand) const{
+    if (this->value != hand.value) {
+        for (int i=0; i<bestFive.size(); i++) {
+            if (bestFive[i] < hand.bestFive[i])
+                return false;
+            if (bestFive[i] > hand.bestFive[i])
+                return true;
+        }
+        return false;
     }
+    else return this->value > hand.value;
+}
+
+bool Hand::operator<(const Hand &hand) const{
+    return this->value < hand.value;
 }
 
 void Hand::setBestHighCard(){
@@ -387,6 +404,24 @@ void Hand::setBestStraight(){
         bestFive.pop_back();
 }
 
+void Hand::setBestFlush(){
+    vector<const Card *> tempHand;
+    tempHand = hand;
+    
+    for (int i = 0; i<tempHand.size(); i++)
+        if (tempHand[i]->color != color.color) {
+            tempHand.erase(tempHand.begin()+i);
+            i--;
+        }
+    
+    std::sort(std::begin(tempHand), std::end(tempHand), [](const Card *a, const Card *b) {return *a > *b;});
+    
+    while (bestFive.size()>5)
+        bestFive.pop_back();
+    
+    bestFive = tempHand;
+}
+
 void Hand::setBestStraightFlush(){
     vector<const Card*> tempHand = hand;
     
@@ -407,52 +442,9 @@ void Hand::setBestStraightFlush(){
         if (straight.lastValue == 1)
             straight.lastValue = 14;
     }
-    
-//    std::sort(std::begin(tempHand), std::end(tempHand), [](const Card *a, const Card *b) {return *a > *b;});
-//
-//    if (tempHand[0]->value == 14 && tempHand[1]->value == 5)
-//        for (int i = 1; i<5; i++)
-//            std::swap(tempHand[i], tempHand[i-1]);
-    
+
     while (tempHand.size()>5)
         tempHand.pop_back();
     
     bestFive = tempHand;
 }
-void Hand::setBestFlush(){
-    vector<const Card *> tempHand;
-    tempHand = hand;
-    
-    for (int i = 0; i<tempHand.size(); i++)
-        if (tempHand[i]->color != color.color) {
-            tempHand.erase(tempHand.begin()+i);
-            i--;
-        }
-    
-    std::sort(std::begin(tempHand), std::end(tempHand), [](const Card *a, const Card *b) {return *a > *b;});
-    
-    while (bestFive.size()>5)
-        bestFive.pop_back();
-    
-    bestFive = tempHand;
-}
-
-
-
-bool Hand::operator>(const Hand &hand) const{
-    if (this->value != hand.value) {
-        for (int i=0; i<bestFive.size(); i++) {
-            if (bestFive[i] < hand.bestFive[i])
-                return false;
-            if (bestFive[i] > hand.bestFive[i])
-                return true;
-        }
-        return false;
-    }
-    else return this->value > hand.value;
-}
-
-bool Hand::operator<(const Hand &hand) const{
-    return this->value < hand.value;
-}
-

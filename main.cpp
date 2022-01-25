@@ -12,8 +12,6 @@
 #include <vector>
 #include <string>
 
-
-
 using std::vector;
 using std::cout;
 using std::endl;
@@ -27,10 +25,8 @@ void getNumOfPlayers(int &x);
 int getSelection(int min, int max);
 
 
-
 int main() {
     mainMenu();
-    
     return 0;
 }
 
@@ -153,5 +149,3 @@ int getSelection(int min, int max){
         throw domainError(selector);
     return selector;
 }
-
-

@@ -17,43 +17,44 @@
 #include <string>
 #include <iomanip>
 
-
-
 class Table{
-protected:
+private:
+    Player *player;
+    Deck deck;
+    std::vector <const Card*> communityCards;
+    
     int amountOfPlayers;
     int deckPosition;
-    Deck deck;
+
     cmn::Mode mode;
     cmn::Stage stage;
-    std::vector <const Card*> communityCards;
-    Player *player;
-    std::vector <Card> unusedCards;
-private:
     
-    void pocketAssignment();
+    std::vector <Card> unusedCards;
+    
     void pocketCardsInput();
+    void uniqueCardInput();
+    std::string enterCardName();
+    void pocketAssignment();
+    virtual void setTies(int firstIndex);
     void messageRandomMode();
     void messageManualMode();
-    std::string enterCardName();
-    void uniqueCardInput();
-    virtual void setTies(int firstIndex);
 public:
     friend class Game;
     friend class Variations;
+    
     Table(int amountOfPlayers);
     Table(int amountOfPlayers, Deck &deck, int positionInDeck);
     
     void cardsInput();
     virtual void cardsAssignment();
     virtual void playersUpdate();
-    void message();
+    virtual void setWinner();
+    void getWinningPercentage(Player players[]);
+    void setUnusedDeck();
     void stageChange();
     void stageChange(cmn::Stage &stage);
-    virtual void setWinner();
-    void setUnusedDeck();
+    void message();
     void print();
-    void getWinningPercentage(Player players[]);
     ~Table();
 };
 

@@ -35,7 +35,6 @@ void Game::randomMode(){
         table->getWinningPercentage(variations.player);
         
         this->draw();
-        //variations.printUnusedDeck();
         
         if (table->stage == cmn::river)
             table->setWinner();

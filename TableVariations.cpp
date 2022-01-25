@@ -11,11 +11,6 @@ Variations::Variations(int amountOfPlayers, Deck &deck, int positionInDeck) : Ta
     amountOfVariations = 0;
 }
 
-void Variations::printUnusedDeck(){
-    for(const Card &i : unusedCards)
-        i.print();
-}
-
 void Variations::combine(std::vector <Card> &unusedCards, cmn::Stage originalStage){
     this->stage = cmn::river;
     cardsAssignment(originalStage);
@@ -53,11 +48,6 @@ void Variations::combine(std::vector <Card> &unusedCards, cmn::Stage originalSta
             setWinner();
             clearVariationCards();
             playersReset();
-//            for (int i=0; i<amountOfPlayers; i++) {
-//                player[i].hand.print();
-//            }
-//                this->print();
-//                showVariant();
         }
         setFamily(unusedCards);
     }
@@ -65,12 +55,6 @@ void Variations::combine(std::vector <Card> &unusedCards, cmn::Stage originalSta
     setWinningPercentage();
     positionInDeck.clear();
     variation.clear();
-}
-
-void Variations::showVariant(){
-    for (Card *i : variation)
-        i->print();
-    std::cout << endl;
 }
 
 void Variations::setFamily(std::vector <Card> &unusedCards){
@@ -101,18 +85,6 @@ int Variations::whichPositionChange(std::vector <Card> &unusedCards){
     return positionToChange;
 }
 
-void Variations::assignVariationCards(){
-    for (int i = 0 ; i<amountOfPlayers; i++)
-        for (Card *x : variation)
-            player[i].hand.getCard(*x);
-}
-
-void Variations::clearVariationCards(){
-    for (int i = 0 ; i<amountOfPlayers; i++)
-        for (int j =0; j<sizeOfVariations;j++)
-            player[i].hand.popCard();
-}
-
 void Variations::cardsAssignment(cmn::Stage stage){
     cmn::Stage tempStage = cmn::pocket;
     deckPosition =0;
@@ -133,11 +105,6 @@ void Variations::cardsAssignment(cmn::Stage stage){
                     deckPosition = amountOfPlayers*2 +3;
                 cardsAssignment(1);
                 break;
-//            case cmn::river:
-//                if (mode == cmn::manual)
-//                    deckPosition =amountOfPlayers*2 +4;
-//                cardsAssignment(5);
-//                break;
             default:
                 break;
         }
@@ -152,6 +119,18 @@ void Variations::cardsAssignment(int limit){
             player[j].hand.getCard(deck[deckPosition]);
         deckPosition++;
     }
+}
+
+void Variations::assignVariationCards(){
+    for (int i = 0 ; i<amountOfPlayers; i++)
+        for (Card *x : variation)
+            player[i].hand.getCard(*x);
+}
+
+void Variations::clearVariationCards(){
+    for (int i = 0 ; i<amountOfPlayers; i++)
+        for (int j =0; j<sizeOfVariations;j++)
+            player[i].hand.popCard();
 }
 
 void Variations::setWinner(){
@@ -183,12 +162,6 @@ void Variations::setWinner(){
         player[winnerIndex].addWin();
     else
         setTies(winnerIndex);
-    
-//    player[winnerIndex].hand.print();
-//    for (int i = 0; i<5; i++){
-//        player[winnerIndex].hand.bestFive[i]->print();
-//    }
-//    std::cout << std::endl;
 }
 
 void Variations::setTies(int firstIndex){
@@ -225,5 +198,15 @@ void Variations::setWinningPercentage(){
         player[i].setPercentage(amountOfVariations);
 }
 
+void Variations::printUnusedDeck(){
+    for(const Card &i : unusedCards)
+        i.print();
+}
+
+void Variations::showVariant(){
+    for (Card *i : variation)
+        i->print();
+    std::cout << endl;
+}
 
 

@@ -13,7 +13,6 @@
 
 #include "Card.hpp"
 
-
 const int DECK_SIZE = 52;
 const int SUIT_SIZE = 13;
 
@@ -23,11 +22,11 @@ private:
 public:
     friend class Table;
     friend class Variations;
+    friend eColor intToColor(int value);
+    
     Deck();
     
     void shuffleDeck();
-    
-    friend eColor intToColor(int value);
     const Card & operator[](int index) const;
     void print();
     

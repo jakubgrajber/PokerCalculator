@@ -48,5 +48,4 @@ void domainError::clearInput(){
     cin.ignore(INT_MAX, '\n');
 }
 
-
 #endif /* exc_mainMenu_h */
