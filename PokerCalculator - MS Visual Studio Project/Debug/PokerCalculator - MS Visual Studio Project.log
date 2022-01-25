@@ -1,0 +1,20 @@
+﻿  Card.cpp
+  Common.cpp
+  Deck.cpp
+  Game.cpp
+  Hand.cpp
+C:\Users\Jakub Grajber\Desktop\PokerCalculator-main\source code\Hand.cpp(215,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\Jakub Grajber\Desktop\PokerCalculator-main\source code\Hand.cpp(223,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\Jakub Grajber\Desktop\PokerCalculator-main\source code\Hand.cpp(306,24): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\Jakub Grajber\Desktop\PokerCalculator-main\source code\Hand.cpp(411,22): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\Jakub Grajber\Desktop\PokerCalculator-main\source code\Hand.cpp(428,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\Jakub Grajber\Desktop\PokerCalculator-main\source code\Hand.cpp(436,31): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  Player.cpp
+  Table.cpp
+C:\Users\Jakub Grajber\Desktop\PokerCalculator-main\source code\Table.cpp(225,29): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+C:\Users\Jakub Grajber\Desktop\PokerCalculator-main\source code\Table.cpp(233,25): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  TableVariations.cpp
+C:\Users\Jakub Grajber\Desktop\PokerCalculator-main\source code\TableVariations.cpp(42,41): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+  main.cpp
+  Generowanie kodu...
+  PokerCalculator - MS Visual Studio Project.vcxproj -> D:\ProjektyInformatyka\PokerCalculator - MS Visual Studio Project\Debug\PokerCalculator - MS Visual Studio Project.exe
